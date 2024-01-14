@@ -15,6 +15,7 @@
     "@mui/material": "^5.15.4",
     "@mui/material-nextjs": "^5.15.3",
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
+    "@vercel/blob": "^0.17.0",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
