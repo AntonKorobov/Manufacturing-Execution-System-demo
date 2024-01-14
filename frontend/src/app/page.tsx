@@ -1,9 +1,11 @@
-import styles from './page.module.scss';
+'use client';
 
-export default function Home() {
+import * as S from './page.styled';
+
+export default function HomePage() {
   return (
-    <main className={styles.main}>
-      <h1>Main page</h1>
-    </main>
+    <S.Main>
+      <S.H1>Home page</S.H1>
+    </S.Main>
   );
 }
