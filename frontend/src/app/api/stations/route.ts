@@ -16,6 +16,7 @@ export async function GET() {
         query: GET_STATIONS_QUERY,
       }),
     }).then((data) => data.json());
+    console.log(response);
 
     if (response.error)
       return NextResponse.json(

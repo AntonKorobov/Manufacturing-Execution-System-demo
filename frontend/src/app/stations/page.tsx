@@ -1,3 +1,7 @@
+'use client';
+
+import { StationsContainer } from '@/components/containers/StationsContainer/StationsContainer';
+
 export default function StationsPage() {
-  return <h2>Stations page</h2>;
+  return <StationsContainer />;
 }
