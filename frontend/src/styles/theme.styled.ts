@@ -1,7 +1,8 @@
 export const theme = {
   color: {
     mainWhite: '#FFFFFF',
-    mainBlue: '#50A3FD',
+    mainBlue: '#103A5E',
+    grayLight: '#E9E9E9',
   },
   fontFamily: {
     primary: 'var(--font-inter)',
