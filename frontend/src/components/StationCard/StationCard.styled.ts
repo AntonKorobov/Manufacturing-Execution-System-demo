@@ -9,6 +9,7 @@ export const Wrapper = styled(Link)`
   border: 1px solid ${(props) => props.theme.color.grayLight};
   font-size: ${(props) => props.theme.fontSize.md};
   &:hover {
+    border-color: ${(props) => props.theme.color.mainBlue};
     img {
       transition-duration: 1s;
       transform: scale(1.1);

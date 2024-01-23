@@ -10,3 +10,21 @@ export interface Station {
 }
 
 export type getStationsResponse = Station[];
+
+export interface Job {
+  id: number;
+  job_name: string;
+  job_qty: number;
+  job_status: {
+    job_status_name: string;
+  };
+  part: {
+    part_img: string;
+    part_name: string;
+  };
+  order: {
+    order_name: string;
+  };
+}
+
+export type getJobsResponse = Job[];

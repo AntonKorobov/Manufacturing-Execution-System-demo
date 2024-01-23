@@ -15,3 +15,26 @@ export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: numbe
     }
   }
 `;
+
+export const GET_JOBS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
+  query {
+    jobs( 
+      limit: ${limit},
+      offset: ${page * limit} 
+    ) {
+      id
+      job_name
+      job_qty
+      job_status {
+        job_status_name
+      }
+      part {
+        part_img
+        part_name
+      }
+      order {
+        order_name
+      }
+    }
+  }
+`;

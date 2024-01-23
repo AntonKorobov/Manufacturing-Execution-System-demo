@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import CircularProgress from '@mui/material/CircularProgress';
+import * as S from './Loading.styled';
 
-export const Loading = styled(CircularProgress)`
-  display: flex;
-  svg {
-    color: ${(props) => props.theme.color.mainBlue};
-  }
-`;
+export const Loading = ({ size }: { size: number }) => {
+  return (
+    <S.Wrapper>
+      <S.Loading size={size} />
+    </S.Wrapper>
+  );
+};
