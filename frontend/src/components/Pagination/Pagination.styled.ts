@@ -14,7 +14,7 @@ export const Pagination = styled(PaginationMUI)`
   button {
     width: 60px;
     height: 60px;
-    border: 1px solid ${(props) => props.theme.color.mainBlue};
+    border: 2px solid ${(props) => props.theme.color.mainBlue};
     &:hover {
       background-color: ${(props) => props.theme.color.mainWhite};
     }
