@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const LayoutWrapper = styled.div`
+  font-family: ${(props) => props.theme.fontFamily.primary};
+
   @media (min-width: 640px) {
     display: grid;
     grid-template-columns: 100px auto;
