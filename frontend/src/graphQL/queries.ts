@@ -1,6 +1,9 @@
-export const GET_STATIONS_QUERY = `
+export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
   query {
-    stations {
+    stations( 
+      limit: ${limit},
+      offset: ${page * limit} 
+    ) {
       id
       station_img
       station_name

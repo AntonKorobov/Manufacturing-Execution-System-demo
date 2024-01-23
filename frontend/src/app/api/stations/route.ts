@@ -1,10 +1,11 @@
 export const revalidate = 0;
 
-import { NextResponse } from 'next/server';
-
+import { NextRequest, NextResponse } from 'next/server';
 import { GET_STATIONS_QUERY } from '@/graphQL/queries';
 
-export async function GET() {
+export async function GET(event: NextRequest) {
+  const page = Number(event.nextUrl.searchParams.get('page'));
+
   try {
     const response = await fetch(process.env.HASURA_PROJECT_ENDPOINT as string, {
       method: 'POST',
@@ -13,10 +14,9 @@ export async function GET() {
         'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
       },
       body: JSON.stringify({
-        query: GET_STATIONS_QUERY,
+        query: GET_STATIONS_QUERY({ page, limit: 8 }),
       }),
     }).then((data) => data.json());
-    console.log(response);
 
     if (response.error)
       return NextResponse.json(

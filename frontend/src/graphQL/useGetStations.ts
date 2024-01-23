@@ -11,9 +11,9 @@ const fetcher = (url: string) =>
     return res.json();
   });
 
-export function useGetStations() {
+export function useGetStations({ pageNumber }: { pageNumber: number }) {
   const { data, error, isLoading } = useSWR<getStationsResponse>(
-    `/api/stations`,
+    `/api/stations?page=${pageNumber}`,
     fetcher
   );
 

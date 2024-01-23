@@ -2,13 +2,18 @@ import { StationCard } from '@/components/StationCard/StationCard';
 
 import { useGetStations } from '@/graphQL/useGetStations';
 
+import { Loading } from '@/components/Loading/Loading';
+
 import * as S from './StationsContainer.styled';
 
 export function StationsContainer() {
-  const { stations, stationsError, stationsIsLoading } = useGetStations();
+  const { stations, stationsError, stationsIsLoading } = useGetStations({
+    pageNumber: 0,
+  });
 
   return (
     <S.StationsContainer>
+      {stationsIsLoading && <Loading size={80} />}
       {stations &&
         stations.map((station) => {
           return (
