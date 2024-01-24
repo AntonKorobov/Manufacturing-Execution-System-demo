@@ -41,7 +41,13 @@ export function JobsTableRow({ job }: { job: Job }) {
         <S.TableCellInner colSpan={5} className="innerCell">
           <S.Table>
             <TableBody>
-              {stationsIsLoading && <Loading size={80} />}
+              {stationsIsLoading && (
+                <S.TableRow>
+                  <S.TableCellInner colSpan={5} className="innerCell">
+                    <Loading size={40} height={100} />
+                  </S.TableCellInner>
+                </S.TableRow>
+              )}
               {stations &&
                 stations.map((station) => (
                   <S.TableRow key={station.id + 'inner'}>
