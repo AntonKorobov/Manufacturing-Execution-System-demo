@@ -4,6 +4,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 
 import { Loading } from '@/components/Loading/Loading';
+import { ExpandButton } from '@/components/ExpandButton/ExpandButton';
 
 import { useGetStations } from '@/graphQL/useGetStations';
 
@@ -30,7 +31,10 @@ export function JobsTableRow({ job }: { job: Job }) {
           {job.job_status.job_status_name}
         </TableCell>
         <TableCell width={'30%'} align="center">
-          <button onClick={() => setIsExpanded((prev) => !prev)}>Open/Close</button>
+          <ExpandButton
+            expand={isExpanded}
+            onClick={() => setIsExpanded((prev) => !prev)}
+          />
         </TableCell>
       </S.TableRow>
       <S.TableRowInner style={{ display: isExpanded ? 'table-row' : 'none' }}>
