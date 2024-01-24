@@ -49,9 +49,11 @@ export function JobsTableRow({ job }: { job: Job }) {
                 </S.TableRow>
               )}
               {stations &&
-                stations.map((station) => (
+                stations.map((station, index) => (
                   <S.TableRow key={station.id + 'inner'}>
-                    <TableCell width={'20%'}></TableCell>
+                    <TableCell width={'20%'} align="right">
+                      {`${index + 1}.`}
+                    </TableCell>
                     <TableCell width={'30%'}>{station.station_name}</TableCell>
                     <TableCell width={'10%'} align="center">
                       {station.station_code}
