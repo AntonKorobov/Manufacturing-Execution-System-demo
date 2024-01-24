@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import * as S from './StationCard.styled';
 
 interface StationCardProps {
@@ -6,6 +7,7 @@ interface StationCardProps {
   stationType: string;
   stationCode: string;
   stationStatus: string;
+  isValidating: boolean;
 }
 
 export function StationCard({
@@ -14,6 +16,7 @@ export function StationCard({
   stationType,
   stationCode,
   stationStatus,
+  isValidating,
 }: StationCardProps) {
   return (
     <S.Wrapper href={'/jobs'}>

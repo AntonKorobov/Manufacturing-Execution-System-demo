@@ -1,7 +1,7 @@
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 
-import { JobsTableRow } from './JobsTableRow';
+import { TableRow } from './TableRow/TableRow';
 
 import { getJobsResponse } from '@/graphQL/types';
 
@@ -31,7 +31,7 @@ export function JobsContainer({ jobs }: { jobs: getJobsResponse }) {
           </S.TableRow>
         </S.TableHead>
         <TableBody>
-          {jobs && jobs.map((job) => <JobsTableRow job={job} key={job.id} />)}
+          {jobs && jobs.map((job) => <TableRow job={job} key={job.id} />)}
         </TableBody>
       </S.Table>
     </S.TableContainer>

@@ -14,7 +14,7 @@ export async function GET(event: NextRequest) {
         'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
       },
       body: JSON.stringify({
-        query: GET_STATIONS_QUERY({ page, limit: 20 }),
+        query: GET_STATIONS_QUERY({ page, limit: 8 }),
       }),
     }).then((data) => data.json());
 

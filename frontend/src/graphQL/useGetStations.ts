@@ -18,11 +18,16 @@ export function useGetStations({
   pageNumber: number;
   shouldFetch?: boolean;
 }) {
-  const { data, error, isLoading } = useSWR<getStationsResponse>(
+  const { data, error, isLoading, isValidating } = useSWR<getStationsResponse>(
     shouldFetch ? `/api/stations?page=${pageNumber}` : null,
     fetcher,
     { refreshInterval: 1000 }
   );
 
-  return { stations: data, stationsError: error, stationsIsLoading: isLoading };
+  return {
+    stations: data,
+    stationsError: error,
+    stationsIsLoading: isLoading,
+    stationsIsisValidating: isValidating,
+  };
 }

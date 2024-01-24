@@ -6,14 +6,17 @@ import { StationsContainer } from '@/components/containers/StationsContainer/Sta
 import { useGetStations } from '@/graphQL/useGetStations';
 
 export default function StationsPage() {
-  const { stations, stationsError, stationsIsLoading } = useGetStations({
-    pageNumber: 0,
-  });
+  const { stations, stationsError, stationsIsLoading, stationsIsisValidating } =
+    useGetStations({
+      pageNumber: 0,
+    });
 
   return (
     <>
       {stationsIsLoading && <Loading size={80} />}
-      {stations && <StationsContainer stations={stations} />}
+      {stations && (
+        <StationsContainer stations={stations} isValidating={stationsIsisValidating} />
+      )}
     </>
   );
 }

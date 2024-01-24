@@ -2,7 +2,11 @@ export const theme = {
   color: {
     mainWhite: '#FFFFFF',
     mainBlue: '#103A5E',
+    brightBlue: '#50A3FD',
     grayLight: '#E9E9E9',
+    greenStart: '#38B455',
+    greenLight: '#1F9254',
+    orangeStop: '#FF8A00',
   },
   fontFamily: {
     primary: 'var(--font-inter)',

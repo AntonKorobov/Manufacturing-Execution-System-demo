@@ -4,12 +4,19 @@ import { getStationsResponse } from '@/graphQL/types';
 
 import * as S from './StationsContainer.styled';
 
-export function StationsContainer({ stations }: { stations: getStationsResponse }) {
+export function StationsContainer({
+  stations,
+  isValidating,
+}: {
+  stations: getStationsResponse;
+  isValidating: boolean;
+}) {
   return (
     <S.Container>
       {stations.map((station) => {
         return (
           <StationCard
+            isValidating={isValidating}
             key={station.id}
             stationImgUrl={station.station_img}
             stationName={station.station_name}

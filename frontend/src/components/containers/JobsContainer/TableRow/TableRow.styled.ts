@@ -1,14 +1,8 @@
 import styled from 'styled-components';
 
 import { Table as TableMUI } from '@mui/material/';
-import { TableHead as TableHeadMUI } from '@mui/material/';
 import { TableRow as TableRowMUI } from '@mui/material/';
 import { TableCell as TableCellMUI } from '@mui/material/';
-
-export const TableContainer = styled.div`
-  height: calc(100vh - 200px);
-  overflow: auto;
-`;
 
 export const Table = styled(TableMUI)`
   min-width: 800px;
@@ -23,10 +17,6 @@ export const Table = styled(TableMUI)`
     padding: 10px;
     font-size: ${(props) => props.theme.fontSize.xl};
   }
-`;
-
-export const TableHead = styled(TableHeadMUI)`
-  height: 100px;
 `;
 
 export const TableRow = styled(TableRowMUI)``;

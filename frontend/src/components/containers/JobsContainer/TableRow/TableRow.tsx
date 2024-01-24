@@ -5,14 +5,15 @@ import TableCell from '@mui/material/TableCell';
 
 import { Loading } from '@/components/Loading/Loading';
 import { ExpandButton } from '@/components/ExpandButton/ExpandButton';
+import { ActionButton } from '@/components/ActionButton/ActionButton';
 
 import { useGetStations } from '@/graphQL/useGetStations';
 
 import { Job } from '@/graphQL/types';
 
-import * as S from './JobsContainer.styled';
+import * as S from './TableRow.styled';
 
-export function JobsTableRow({ job }: { job: Job }) {
+export function TableRow({ job }: { job: Job }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const { stations, stationsError, stationsIsLoading } = useGetStations({
     pageNumber: 0,
@@ -61,7 +62,16 @@ export function JobsTableRow({ job }: { job: Job }) {
                     <TableCell width={'10%'} align="center">
                       {station.station_status.station_status_name}
                     </TableCell>
-                    <TableCell width={'30%'} align="center" colSpan={2}></TableCell>
+                    <TableCell width={'30%'} align="center" colSpan={2}>
+                      <div style={{ display: 'flex', gap: '10px' }}>
+                        <ActionButton type="start" onClick={() => {}}>
+                          Start
+                        </ActionButton>
+                        <ActionButton type="stop" onClick={() => {}}>
+                          Stop
+                        </ActionButton>
+                      </div>
+                    </TableCell>
                   </S.TableRow>
                 ))}
             </TableBody>
