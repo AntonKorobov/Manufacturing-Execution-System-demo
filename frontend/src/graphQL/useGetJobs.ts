@@ -14,7 +14,8 @@ const fetcher = (url: string) =>
 export function useGetJobs({ pageNumber }: { pageNumber: number }) {
   const { data, error, isLoading } = useSWR<getJobsResponse>(
     `/api/jobs?page=${pageNumber}`,
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
   return { jobs: data, jobsError: error, jobsIsLoading: isLoading };

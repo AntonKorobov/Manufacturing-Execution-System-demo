@@ -20,7 +20,8 @@ export function useGetStations({
 }) {
   const { data, error, isLoading } = useSWR<getStationsResponse>(
     shouldFetch ? `/api/stations?page=${pageNumber}` : null,
-    fetcher
+    fetcher,
+    { refreshInterval: 1000 }
   );
 
   return { stations: data, stationsError: error, stationsIsLoading: isLoading };
