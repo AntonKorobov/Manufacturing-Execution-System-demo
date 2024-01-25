@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
+
+import { TStationStatuses } from '@/graphQL/types';
+
 import * as S from './StationCard.styled';
 
 interface StationCardProps {
@@ -6,7 +9,7 @@ interface StationCardProps {
   stationName: string;
   stationType: string;
   stationCode: string;
-  stationStatus: string;
+  stationStatus: TStationStatuses;
   isValidating: boolean;
 }
 
@@ -39,7 +42,8 @@ export function StationCard({
           Code: <span>{stationCode}</span>
         </li>
         <li>
-          Status: <span>{stationStatus}</span>
+          Status:
+          <S.Status type={stationStatus}>{stationStatus}</S.Status>
         </li>
       </S.List>
     </S.Wrapper>

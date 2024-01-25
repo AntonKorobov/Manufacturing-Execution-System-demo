@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import { Loading } from '@/components/Loading/Loading';
 import { ExpandButton } from '@/components/ExpandButton/ExpandButton';
 import { ActionButton } from '@/components/ActionButton/ActionButton';
+import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
 // import { CounterInput } from '@/components/CounterInput/CounterInput';
 
 import { useGetStations } from '@/graphQL/useGetStations';
@@ -82,7 +83,9 @@ function StationRow({ station, index }: { station: Station; index: number }) {
         {station.station_code}
       </TableCell>
       <TableCell width={'10%'} align="center">
-        {station.station_status.station_status_name}
+        <StatusIcon type={station.station_status.station_status_name}>
+          {station.station_status.station_status_name}
+        </StatusIcon>
       </TableCell>
       <TableCell width={'30%'} align="center" colSpan={2}>
         <div style={{ display: 'flex', gap: '10px' }}>

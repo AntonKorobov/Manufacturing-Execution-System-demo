@@ -1,3 +1,22 @@
+export type TStationStatuses =
+  | 'unknown'
+  | 'working'
+  | 'preparing'
+  | 'ready to operate'
+  | 'pending'
+  | 'repairing'
+  | 'in progress';
+
+export enum StationTypes {
+  unknown = 'unknown',
+  working = 'working',
+  preparing = 'preparing',
+  readyToOperate = 'ready to operate',
+  pending = 'pending',
+  repairing = 'repairing',
+  inProgress = 'in progress',
+}
+
 export interface Station {
   id: number;
   station_code: string;
@@ -5,7 +24,7 @@ export interface Station {
   station_name: string;
   station_type: string;
   station_status: {
-    station_status_name: string;
+    station_status_name: TStationStatuses;
   };
 }
 
@@ -28,3 +47,21 @@ export interface Job {
 }
 
 export type getJobsResponse = Job[];
+
+// if (someServerThing === StationTypes.UNKNOWN)
+
+// switch (StationTypes) {
+//   case
+// }
+
+// StationTypes.
+
+// export enum TStationStatuses {
+//   'unknown' = 1,
+//   'working',
+//   'preparing',
+//   'ready to operate',
+//   'pending',
+//   'repairing',
+//   'in progress',
+// }
