@@ -1,11 +1,11 @@
 export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
-import { GET_JOBS_QUERY } from '@/graphQL/queries';
+import { PUT_STATION_STATUS } from '@/graphQL/mutations';
 
-export async function GET(req: NextRequest) {
-  const LIMIT_ELEMENTS_ON_PAGE = 8;
-  const page = Number(req.nextUrl.searchParams.get('page'));
+export async function PUT(req: NextRequest) {
+  const id = Number(req.nextUrl.pathname.split('/').slice(-1)[0]);
+  const { statusCode } = await req.json();
 
   try {
     const response = await fetch(process.env.HASURA_PROJECT_ENDPOINT as string, {
@@ -15,16 +15,16 @@ export async function GET(req: NextRequest) {
         'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
       },
       body: JSON.stringify({
-        query: GET_JOBS_QUERY({ page, limit: LIMIT_ELEMENTS_ON_PAGE }),
+        query: PUT_STATION_STATUS({ id, statusCode }),
       }),
     }).then((data) => data.json());
 
-    if (response.error)
+    if (response.error) {
       return NextResponse.json(
         { message: `Can't get data from database`, error: response.error },
         { status: 500 }
       );
-    else return NextResponse.json(response.data.jobs, { status: 200 });
+    } else return NextResponse.json(response.data, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: `Can't get data from database`, error },

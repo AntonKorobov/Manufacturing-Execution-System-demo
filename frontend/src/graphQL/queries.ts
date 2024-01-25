@@ -1,6 +1,7 @@
 export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
   query {
     stations( 
+      order_by: {id: asc},
       limit: ${limit},
       offset: ${page * limit} 
     ) {
@@ -19,6 +20,7 @@ export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: numbe
 export const GET_JOBS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
   query {
     jobs( 
+      order_by: {id: asc},
       limit: ${limit},
       offset: ${page * limit} 
     ) {
