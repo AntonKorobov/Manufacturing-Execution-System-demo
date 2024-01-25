@@ -12,6 +12,7 @@ import { useGetStations } from '@/graphQL/useGetStations';
 import { Job } from '@/graphQL/types';
 
 import * as S from './TableRow.styled';
+import { CounterInput } from '@/components/CounterInput/CounterInput';
 
 export function TableRow({ job }: { job: Job }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -64,12 +65,13 @@ export function TableRow({ job }: { job: Job }) {
                     </TableCell>
                     <TableCell width={'30%'} align="center" colSpan={2}>
                       <div style={{ display: 'flex', gap: '10px' }}>
-                        <ActionButton type="start" onClick={() => {}}>
+                        {/* <ActionButton type="start" onClick={() => {}}>
                           Start
-                        </ActionButton>
+                        </ActionButton> */}
                         <ActionButton type="stop" onClick={() => {}}>
                           Stop
                         </ActionButton>
+                        <CounterInput />
                       </div>
                     </TableCell>
                   </S.TableRow>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Loading } from '@/components/Loading/Loading';
-import { JobsContainer } from '@/components/containers/JobsContainer/JobsContainer';
+import { JobsContainer } from '@/containers/JobsContainer/JobsContainer';
 
 import { useGetJobs } from '@/graphQL/useGetJobs';
 

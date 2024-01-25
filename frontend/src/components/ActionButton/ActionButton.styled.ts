@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Button = styled.button`
   height: 44px;
   width: 100%;
-  font-size: ${(props) => props.theme.fontSize.lg};
+  font-size: ${(props) => props.theme.fontSize.xl};
   background-color: ${(props) => {
     switch (props.className) {
       case 'start': {

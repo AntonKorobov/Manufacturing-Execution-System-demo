@@ -1,7 +1,7 @@
 'use client';
 
 import { Loading } from '@/components/Loading/Loading';
-import { StationsContainer } from '@/components/containers/StationsContainer/StationsContainer';
+import { StationsContainer } from '@/containers/StationsContainer/StationsContainer';
 
 import { useGetStations } from '@/graphQL/useGetStations';
 
