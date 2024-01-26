@@ -28,3 +28,8 @@ export const TableRowInner = styled(TableRowMUI)`
 export const TableCellInner = styled(TableCellMUI)`
   padding: 0;
 `;
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;

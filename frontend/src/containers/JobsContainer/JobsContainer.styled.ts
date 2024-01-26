@@ -21,7 +21,7 @@ export const Table = styled(TableMUI)`
   th,
   td {
     padding: 10px;
-    font-size: ${(props) => props.theme.fontSize.xl};
+    font-size: ${(props) => props.theme.fontSize.lg};
   }
 `;
 

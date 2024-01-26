@@ -48,6 +48,7 @@ export interface Operation {
       station_name: string;
       id: number;
     };
+    operation_expected_time: number;
     sequence: number;
     id: number;
   };
