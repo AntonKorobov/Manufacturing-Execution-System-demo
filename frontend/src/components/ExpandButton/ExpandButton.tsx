@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
-import { collapse_arrow } from '@/assets';
-
 const Button = styled.button`
   width: 40px;
   height: 40px;
@@ -34,7 +32,7 @@ export function ExpandButton({
       <Image
         width={20}
         height={20}
-        src={collapse_arrow}
+        src={'/assets/collapse_arrow.svg'}
         alt="arrow"
         style={{ transform: expand ? 'rotate(180deg)' : '' }}
       />

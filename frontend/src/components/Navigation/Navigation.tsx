@@ -2,7 +2,6 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
 import { NavigationLink } from './NavigationLink/NavigationLink';
-import { stations_button_icon, jobs_button_icon } from '@/assets';
 
 import * as S from './Navigation.styled';
 
@@ -17,13 +16,23 @@ export function Navigation() {
             href={'/stations'}
             className={pathname === '/stations' ? 'active' : ''}
           >
-            <Image src={stations_button_icon} width={45} height={45} alt="stations" />
+            <Image
+              src={'/assets/stations_button_icon.svg'}
+              width={45}
+              height={45}
+              alt="stations"
+            />
             <S.LinkName>Stations</S.LinkName>
           </NavigationLink>
         </S.Item>
         <S.Item>
           <NavigationLink href={'/jobs'} className={pathname === '/jobs' ? 'active' : ''}>
-            <Image src={jobs_button_icon} width={45} height={45} alt="jobs" />
+            <Image
+              src={'/assets/jobs_button_icon.svg'}
+              width={45}
+              height={45}
+              alt="jobs"
+            />
             <S.LinkName>Jobs</S.LinkName>
           </NavigationLink>
         </S.Item>
