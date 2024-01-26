@@ -1,6 +1,4 @@
-import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
-
-import { TStationStatuses } from '@/graphQL/types';
+import { StationTypes } from '@/graphQL/types';
 
 import * as S from './StationCard.styled';
 
@@ -9,7 +7,7 @@ interface StationCardProps {
   stationName: string;
   stationType: string;
   stationCode: string;
-  stationStatus: TStationStatuses;
+  stationStatus: StationTypes;
   isValidating: boolean;
 }
 

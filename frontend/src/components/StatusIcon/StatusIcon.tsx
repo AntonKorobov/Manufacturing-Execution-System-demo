@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 import { ReactNode } from 'react';
 
-import { TStationStatuses } from '@/graphQL/types';
+import { StationTypes } from '@/graphQL/types';
 
 interface StatusIconProps {
   children: ReactNode;
-  type: TStationStatuses;
+  type: StationTypes;
 }
 
 export const StatusIcon = styled.div<StatusIconProps>`
@@ -22,22 +22,22 @@ export const StatusIcon = styled.div<StatusIconProps>`
   color: ${(props) => props.theme.color.mainWhite};
   background-color: ${(props) => {
     switch (props.type) {
-      case 'unknown': {
+      case StationTypes.UNKNOWN: {
         return props.theme.color.grayDark;
       }
-      case 'working': {
+      case StationTypes.WORKING: {
         return props.theme.color.brightBlue;
       }
-      case 'preparing': {
+      case StationTypes.PREPARING: {
         return props.theme.color.greenLight;
       }
-      case 'ready to operate': {
+      case StationTypes.READY_TO_OPERATE: {
         return props.theme.color.greenLight;
       }
-      case 'pending': {
+      case StationTypes.PENDING: {
         return props.theme.color.grayDark;
       }
-      case 'repairing': {
+      case StationTypes.REPAIRING: {
         return props.theme.color.greenLight;
       }
       default: {
@@ -46,15 +46,3 @@ export const StatusIcon = styled.div<StatusIconProps>`
     }
   }};
 `;
-
-// type BackgroundColors = { [key in TStationStatuses]: string };
-
-// const backgroundColors: BackgroundColors = {
-//   unknown: '#656565',
-//   working: '#0d85e1',
-//   preparing: '#155EC2',
-//   'ready to operate': '#3c8dff',
-//   pending: '#8f8f8f',
-//   repairing: '#c2159d',
-//   'in progress': '#c14624',
-// };

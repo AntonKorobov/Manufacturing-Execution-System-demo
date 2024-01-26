@@ -13,6 +13,7 @@ import { useGetStations } from '@/graphQL/useGetStations';
 import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
 
 import { Job, Station } from '@/graphQL/types';
+import { ActionButtonTypes } from '@/components/types';
 
 import * as S from './TableRow.styled';
 
@@ -90,13 +91,13 @@ function StationRow({ station, index }: { station: Station; index: number }) {
       <TableCell width={'30%'} align="center" colSpan={2}>
         <div style={{ display: 'flex', gap: '10px' }}>
           <ActionButton
-            type="start"
+            type={ActionButtonTypes.START}
             onClick={() => changeStationStatus({ statusCode: 2 })}
           >
             Start
           </ActionButton>
           <ActionButton
-            type="stop"
+            type={ActionButtonTypes.STOP}
             onClick={() => changeStationStatus({ statusCode: 5 })}
           >
             Stop

@@ -1,20 +1,20 @@
-export type TStationStatuses =
-  | 'unknown'
-  | 'working'
-  | 'preparing'
-  | 'ready to operate'
-  | 'pending'
-  | 'repairing'
-  | 'in progress';
+// export type TStationStatuses =
+//   | 'unknown'
+//   | 'working'
+//   | 'preparing'
+//   | 'ready to operate'
+//   | 'pending'
+//   | 'repairing'
+//   | 'in progress';
 
 export enum StationTypes {
-  unknown = 'unknown',
-  working = 'working',
-  preparing = 'preparing',
-  readyToOperate = 'ready to operate',
-  pending = 'pending',
-  repairing = 'repairing',
-  inProgress = 'in progress',
+  UNKNOWN = 'unknown',
+  WORKING = 'working',
+  PREPARING = 'preparing',
+  READY_TO_OPERATE = 'ready to operate',
+  PENDING = 'pending',
+  REPAIRING = 'repairing',
+  IN_PROGRESS = 'in progress',
 }
 
 export interface Station {
@@ -24,7 +24,7 @@ export interface Station {
   station_name: string;
   station_type: string;
   station_status: {
-    station_status_name: TStationStatuses;
+    station_status_name: StationTypes;
   };
 }
 

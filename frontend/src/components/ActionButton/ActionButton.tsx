@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { ReactNode } from 'react';
 
-type ActionButtonTypes = 'start' | 'stop' | 'next' | 'prev';
+import { ActionButtonTypes } from '@/components/types';
 
 interface ActionButtonProps {
   children: ReactNode;
@@ -16,16 +16,16 @@ export const ActionButton = styled.button<ActionButtonProps>`
   font-size: ${(props) => props.theme.fontSize.xl};
   background-color: ${(props) => {
     switch (props.type) {
-      case 'start': {
+      case ActionButtonTypes.START: {
         return props.theme.color.greenStart;
       }
-      case 'stop': {
+      case ActionButtonTypes.STOP: {
         return props.theme.color.orangeStop;
       }
-      case 'next': {
+      case ActionButtonTypes.NEXT: {
         return props.theme.color.greenLight;
       }
-      case 'prev': {
+      case ActionButtonTypes.PREV: {
         return props.theme.color.greenLight;
       }
       default: {
@@ -35,10 +35,10 @@ export const ActionButton = styled.button<ActionButtonProps>`
   }};
   color: ${(props) => {
     switch (props.type) {
-      case 'next': {
+      case ActionButtonTypes.NEXT: {
         return props.theme.color.greenStart;
       }
-      case 'prev': {
+      case ActionButtonTypes.PREV: {
         return props.theme.color.greenStart;
       }
       default: {
