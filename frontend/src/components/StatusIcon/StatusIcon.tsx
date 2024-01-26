@@ -15,6 +15,7 @@ export const StatusIcon = styled.div<StatusIconProps>`
   justify-content: center;
   height: 44px;
   width: 100%;
+  padding: 0 20px;
   border-radius: 22px;
   font-family: ${(props) => props.theme.fontFamily.primary};
   font-size: ${(props) => props.theme.fontSize.lg};

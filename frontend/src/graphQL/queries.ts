@@ -40,3 +40,24 @@ export const GET_JOBS_QUERY = ({ page, limit }: { page: number; limit: number })
     }
   }
 `;
+
+export const GET_JOB_OPERATIONS = ({ jobId }: { jobId: number }) => `
+  query {
+    job_operation(
+        where: {job_id: {_eq: ${jobId}}},
+        order_by: {operation: {sequence: asc}}
+      ) {
+        operation {
+          station {
+            station_status {
+              station_status_name
+            }
+            station_name
+            id
+          }
+        sequence
+        id
+      }
+    }
+  }
+`;

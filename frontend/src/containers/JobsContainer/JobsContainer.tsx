@@ -17,7 +17,7 @@ export function JobsContainer({ jobs }: { jobs: getJobsResponse }) {
               Order name
             </TableCell>
             <TableCell width={'30%'} className="column2">
-              Name
+              Job name
             </TableCell>
             <TableCell width={'10%'} align="center" className="column3">
               Qty

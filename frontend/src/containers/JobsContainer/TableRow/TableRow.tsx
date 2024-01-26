@@ -9,18 +9,18 @@ import { ActionButton } from '@/components/ActionButton/ActionButton';
 import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
 // import { CounterInput } from '@/components/CounterInput/CounterInput';
 
-import { useGetStations } from '@/graphQL/useGetStations';
+import { useGetJobOperations } from '@/graphQL/useGetJobOperations';
 import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
 
-import { Job, Station } from '@/graphQL/types';
+import { Job, Operation } from '@/graphQL/types';
 import { ActionButtonTypes } from '@/components/types';
 
 import * as S from './TableRow.styled';
 
 export function TableRow({ job }: { job: Job }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { stations, stationsError, stationsIsLoading } = useGetStations({
-    pageNumber: 0,
+  const { operations, operationsError, operationsIsLoading } = useGetJobOperations({
+    jobId: job.id,
     shouldFetch: isExpanded,
   });
 
@@ -46,16 +46,16 @@ export function TableRow({ job }: { job: Job }) {
         <S.TableCellInner colSpan={5} className="innerCell">
           <S.Table>
             <TableBody>
-              {stationsIsLoading && (
+              {operationsIsLoading && (
                 <S.TableRow>
                   <S.TableCellInner colSpan={5} className="innerCell">
                     <Loading size={40} height={100} />
                   </S.TableCellInner>
                 </S.TableRow>
               )}
-              {stations &&
-                stations.map((station, index) => (
-                  <StationRow key={station.id} station={station} index={index} />
+              {operations &&
+                operations.map((operation) => (
+                  <OperationRow key={operation.operation.id} operation={operation} />
                 ))}
             </TableBody>
           </S.Table>
@@ -65,27 +65,27 @@ export function TableRow({ job }: { job: Job }) {
   );
 }
 
-function StationRow({ station, index }: { station: Station; index: number }) {
+function OperationRow({ operation }: { operation: Operation }) {
   const { isStationStatusChanging, changeStationStatus } = usePostStationStatus({
-    id: station.id,
+    id: operation.operation.station.id,
   });
 
   useEffect(() => {
-    console.log(isStationStatusChanging);
+    console.log('status is updating', isStationStatusChanging);
   }, [isStationStatusChanging]);
 
   return (
-    <S.TableRow key={station.id + 'inner'}>
+    <S.TableRow key={operation.operation.id}>
       <TableCell width={'20%'} align="right">
-        {`${index + 1}.`}
+        {operation.operation.sequence}
       </TableCell>
-      <TableCell width={'30%'}>{station.station_name}</TableCell>
+      <TableCell width={'30%'}>{operation.operation.station.station_name}</TableCell>
       <TableCell width={'10%'} align="center">
-        {station.station_code}
+        {operation.operation.station.id}
       </TableCell>
       <TableCell width={'10%'} align="center">
-        <StatusIcon type={station.station_status.station_status_name}>
-          {station.station_status.station_status_name}
+        <StatusIcon type={operation.operation.station.station_status.station_status_name}>
+          {operation.operation.station.station_status.station_status_name}
         </StatusIcon>
       </TableCell>
       <TableCell width={'30%'} align="center" colSpan={2}>

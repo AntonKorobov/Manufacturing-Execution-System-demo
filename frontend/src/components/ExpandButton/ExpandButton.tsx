@@ -11,13 +11,6 @@ const Button = styled.button`
     border-color: ${(props) => props.theme.color.mainBlue};
     cursor: pointer;
   }
-
-  &:active {
-    svg {
-      background-color: red;
-      color: ${(props) => props.theme.color.mainBlue};
-    }
-  }
 `;
 
 export function ExpandButton({
