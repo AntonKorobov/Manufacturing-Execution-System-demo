@@ -33,3 +33,8 @@ export const ButtonsWrapper = styled.div`
   display: flex;
   gap: 10px;
 `;
+
+export const StationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;

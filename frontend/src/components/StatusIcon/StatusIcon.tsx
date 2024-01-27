@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 import { ReactNode } from 'react';
 
-import { StationTypes } from '@/graphQL/types';
+import { StationStatuses, OperationStatuses } from '@/graphQL/types';
 
 interface StatusIconProps {
   children: ReactNode;
-  type: StationTypes;
+  type: StationStatuses | OperationStatuses;
 }
 
 export const StatusIcon = styled.div<StatusIconProps>`
@@ -23,22 +23,34 @@ export const StatusIcon = styled.div<StatusIconProps>`
   color: ${(props) => props.theme.color.mainWhite};
   background-color: ${(props) => {
     switch (props.type) {
-      case StationTypes.UNKNOWN: {
+      case StationStatuses.UNKNOWN: {
         return props.theme.color.grayDark;
       }
-      case StationTypes.WORKING: {
+      case StationStatuses.WORKING: {
         return props.theme.color.brightBlue;
       }
-      case StationTypes.PREPARING: {
+      case StationStatuses.PREPARING: {
         return props.theme.color.greenLight;
       }
-      case StationTypes.READY_TO_OPERATE: {
+      case StationStatuses.READY_TO_OPERATE: {
         return props.theme.color.greenLight;
       }
-      case StationTypes.PENDING: {
+      case StationStatuses.PENDING: {
         return props.theme.color.grayDark;
       }
-      case StationTypes.REPAIRING: {
+      case StationStatuses.REPAIRING: {
+        return props.theme.color.greenLight;
+      }
+      case OperationStatuses.UNKNOWN: {
+        return props.theme.color.grayDark;
+      }
+      case OperationStatuses.QUEUED: {
+        return props.theme.color.grayDark;
+      }
+      case OperationStatuses.IN_PROGRESS: {
+        return props.theme.color.brightBlue;
+      }
+      case OperationStatuses.FINISHED: {
         return props.theme.color.greenLight;
       }
       default: {

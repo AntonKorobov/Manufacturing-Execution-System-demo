@@ -1,4 +1,4 @@
-export enum StationTypes {
+export enum StationStatuses {
   UNKNOWN = 'unknown',
   WORKING = 'working',
   PREPARING = 'preparing',
@@ -15,18 +15,25 @@ export interface Station {
   station_name: string;
   station_type: string;
   station_status: {
-    station_status_name: StationTypes;
+    station_status_name: StationStatuses;
   };
 }
 
 export type getStationsResponse = Station[];
+
+export enum OperationStatuses {
+  UNKNOWN = 'unknown',
+  QUEUED = 'queued',
+  IN_PROGRESS = 'in progress',
+  FINISHED = 'finished',
+}
 
 export interface Job {
   id: number;
   job_name: string;
   job_qty: number;
   job_status: {
-    job_status_name: string;
+    job_status_name: OperationStatuses;
   };
   part: {
     part_img: string;
@@ -43,7 +50,7 @@ export interface Operation {
   operation: {
     station: {
       station_status: {
-        station_status_name: StationTypes;
+        station_status_name: StationStatuses;
       };
       station_name: string;
       id: number;
@@ -51,6 +58,11 @@ export interface Operation {
     operation_expected_time: number;
     sequence: number;
     id: number;
+  };
+  job_operation_duration: number;
+  job_operation_qty_out: number;
+  operation_status: {
+    operation_status_name: OperationStatuses;
   };
 }
 

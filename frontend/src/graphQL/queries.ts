@@ -55,9 +55,14 @@ export const GET_JOB_OPERATIONS = ({ jobId }: { jobId: number }) => `
             station_name
             id
           }
-          operation_expected_time
-          sequence
           id
+          sequence
+          operation_expected_time
+        }
+        job_operation_duration
+        job_operation_qty_out
+        operation_status {
+          operation_status_name
         }
       }
   }

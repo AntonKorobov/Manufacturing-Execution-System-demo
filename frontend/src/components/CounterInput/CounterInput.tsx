@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as S from './CounterInput.styled';
 
-export function CounterInput() {
+export function CounterInput({ onChange }: { onChange: (value: number) => void }) {
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    onChange(value);
+  }, [value]);
 
   const handleClickMinus = () => {
     if (value !== 0) {

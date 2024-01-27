@@ -50,7 +50,9 @@ export function TableRow({ job }: { job: Job }) {
           {job.job_qty}
         </TableCell>
         <TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-          {job.job_status.job_status_name}
+          <StatusIcon type={job.job_status.job_status_name}>
+            {job.job_status.job_status_name}
+          </StatusIcon>
         </TableCell>
         <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
           <ExpandButton
@@ -77,6 +79,7 @@ export function TableRow({ job }: { job: Job }) {
                     operation={operation}
                     isValidating={operationsIsValidating}
                     revalidateOperations={revalidateOperations}
+                    jobQty={job.job_qty}
                   />
                 ))}
             </TableBody>
@@ -91,10 +94,12 @@ function OperationRow({
   operation,
   isValidating,
   revalidateOperations,
+  jobQty,
 }: {
   operation: Operation;
   isValidating: boolean;
   revalidateOperations: VoidFunction;
+  jobQty: number;
 }) {
   const { isStationStatusChanging, changeStationStatus } = usePostStationStatus({
     id: operation.operation.station.id,
@@ -105,6 +110,8 @@ function OperationRow({
     min: expected_min,
     sec: expected_sec,
   } = convertMillisecondsToTime(operation.operation.operation_expected_time);
+
+  const [operationQty, setOperationQty] = useState(operation.job_operation_qty_out); //from DB
 
   const [isUpdating] = useIsUpdating({
     isMutating: isStationStatusChanging,
@@ -118,24 +125,31 @@ function OperationRow({
         {operation.operation.sequence}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_2}>
-        {operation.operation.station.station_name}
+        <S.StationWrapper>
+          {operation.operation.station.station_name}
+          <StatusIcon
+            type={operation.operation.station.station_status.station_status_name}
+          >
+            {!isUpdating ? (
+              operation.operation.station.station_status.station_status_name
+            ) : (
+              <Loading size={20} />
+            )}
+          </StatusIcon>
+        </S.StationWrapper>
       </TableCell>
-      <TableCell width={TABLE.COLUMN_WIDTH_3} align="center" className="column3">
+      <TableCell width={TABLE.COLUMN_WIDTH_3} align="center">
         {`${expected_hrs}:${expected_min}:${expected_sec}`}
       </TableCell>
-      <TableCell width={TABLE.COLUMN_WIDTH_4} align="center" className="column3">
+      <TableCell width={TABLE.COLUMN_WIDTH_4} align="center">
         {`${expected_hrs}:${expected_min}:${expected_sec}`}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_5} align="center">
-        {operation.operation.station.id}
+        {`${operationQty}/${jobQty}`}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-        <StatusIcon type={operation.operation.station.station_status.station_status_name}>
-          {!isUpdating ? (
-            operation.operation.station.station_status.station_status_name
-          ) : (
-            <Loading size={20} />
-          )}
+        <StatusIcon type={operation.operation_status.operation_status_name}>
+          {operation.operation_status.operation_status_name}
         </StatusIcon>
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
@@ -156,7 +170,7 @@ function OperationRow({
           >
             Stop
           </ActionButton>
-          <CounterInput />
+          <CounterInput onChange={setOperationQty} />
         </S.ButtonsWrapper>
       </TableCell>
     </S.TableRow>
