@@ -23,7 +23,13 @@ import * as S from './TableRow.styled';
 
 export function TableRow({ job }: { job: Job }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { operations, operationsError, operationsIsLoading } = useGetJobOperations({
+  const {
+    operations,
+    operationsError,
+    operationsIsLoading,
+    operationsIsValidating,
+    refreshOperations,
+  } = useGetJobOperations({
     jobId: job.id,
     shouldFetch: isExpanded,
   });
@@ -65,7 +71,12 @@ export function TableRow({ job }: { job: Job }) {
               )}
               {operations &&
                 operations.map((operation) => (
-                  <OperationRow key={operation.operation.id} operation={operation} />
+                  <OperationRow
+                    key={operation.operation.id}
+                    operation={operation}
+                    isValidating={operationsIsValidating}
+                    refreshOperations={refreshOperations}
+                  />
                 ))}
             </TableBody>
           </S.Table>
@@ -75,7 +86,15 @@ export function TableRow({ job }: { job: Job }) {
   );
 }
 
-function OperationRow({ operation }: { operation: Operation }) {
+function OperationRow({
+  operation,
+  isValidating,
+  refreshOperations,
+}: {
+  operation: Operation;
+  isValidating: boolean;
+  refreshOperations: VoidFunction;
+}) {
   const { isStationStatusChanging, changeStationStatus } = usePostStationStatus({
     id: operation.operation.station.id,
   });
@@ -86,9 +105,18 @@ function OperationRow({ operation }: { operation: Operation }) {
     sec: expected_sec,
   } = convertMillisecondsToTime(operation.operation.operation_expected_time);
 
+  const [isUpdating, setIsUpdating] = useState(false);
+
   useEffect(() => {
-    console.log('status is updating', isStationStatusChanging);
-  }, [isStationStatusChanging]);
+    if (isStationStatusChanging) {
+      setIsUpdating(true);
+      refreshOperations();
+    }
+
+    if (!isStationStatusChanging && !isValidating) {
+      setIsUpdating(false);
+    }
+  }, [isStationStatusChanging, isValidating]);
 
   return (
     <S.TableRow key={operation.operation.id}>
@@ -109,20 +137,28 @@ function OperationRow({ operation }: { operation: Operation }) {
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
         <StatusIcon type={operation.operation.station.station_status.station_status_name}>
-          {operation.operation.station.station_status.station_status_name}
+          {!isUpdating ? (
+            operation.operation.station.station_status.station_status_name
+          ) : (
+            <Loading size={20} />
+          )}
         </StatusIcon>
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
         <S.ButtonsWrapper>
           <ActionButton
             type={ActionButtonTypes.START}
-            onClick={() => changeStationStatus({ statusCode: 2 })}
+            onClick={() => {
+              changeStationStatus({ statusCode: 2 });
+            }}
           >
             Start
           </ActionButton>
           <ActionButton
             type={ActionButtonTypes.STOP}
-            onClick={() => changeStationStatus({ statusCode: 5 })}
+            onClick={() => {
+              changeStationStatus({ statusCode: 5 });
+            }}
           >
             Stop
           </ActionButton>

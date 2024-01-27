@@ -18,11 +18,18 @@ export function useGetJobOperations({
   jobId: number;
   shouldFetch?: boolean;
 }) {
-  const { data, error, isLoading } = useSWR<getJobOperationsResponse>(
-    shouldFetch ? `/api/jobs/${jobId}/operations` : null,
-    fetcher,
-    { refreshInterval: 1000 }
-  );
+  const { data, error, isLoading, isValidating, mutate } =
+    useSWR<getJobOperationsResponse>(
+      shouldFetch ? `/api/jobs/${jobId}/operations` : null,
+      fetcher,
+      { refreshInterval: 1000 }
+    );
 
-  return { operations: data, operationsError: error, operationsIsLoading: isLoading };
+  return {
+    operations: data,
+    operationsError: error,
+    operationsIsLoading: isLoading,
+    operationsIsValidating: isValidating,
+    refreshOperations: mutate,
+  };
 }
