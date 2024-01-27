@@ -11,6 +11,7 @@ import { CounterInput } from '@/components/CounterInput/CounterInput';
 
 import { useGetJobOperations } from '@/graphQL/useGetJobOperations';
 import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
+import { useIsUpdating } from '@/hooks/useIsUpdating';
 
 import { convertMillisecondsToTime } from '@/utils/convertMillisecondsToTime';
 
@@ -28,7 +29,7 @@ export function TableRow({ job }: { job: Job }) {
     operationsError,
     operationsIsLoading,
     operationsIsValidating,
-    refreshOperations,
+    revalidateOperations,
   } = useGetJobOperations({
     jobId: job.id,
     shouldFetch: isExpanded,
@@ -75,7 +76,7 @@ export function TableRow({ job }: { job: Job }) {
                     key={operation.operation.id}
                     operation={operation}
                     isValidating={operationsIsValidating}
-                    refreshOperations={refreshOperations}
+                    revalidateOperations={revalidateOperations}
                   />
                 ))}
             </TableBody>
@@ -89,11 +90,11 @@ export function TableRow({ job }: { job: Job }) {
 function OperationRow({
   operation,
   isValidating,
-  refreshOperations,
+  revalidateOperations,
 }: {
   operation: Operation;
   isValidating: boolean;
-  refreshOperations: VoidFunction;
+  revalidateOperations: VoidFunction;
 }) {
   const { isStationStatusChanging, changeStationStatus } = usePostStationStatus({
     id: operation.operation.station.id,
@@ -105,18 +106,11 @@ function OperationRow({
     sec: expected_sec,
   } = convertMillisecondsToTime(operation.operation.operation_expected_time);
 
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  useEffect(() => {
-    if (isStationStatusChanging) {
-      setIsUpdating(true);
-      refreshOperations();
-    }
-
-    if (!isStationStatusChanging && !isValidating) {
-      setIsUpdating(false);
-    }
-  }, [isStationStatusChanging, isValidating]);
+  const [isUpdating] = useIsUpdating({
+    isMutating: isStationStatusChanging,
+    isValidating: isValidating,
+    forceRevalidation: revalidateOperations,
+  });
 
   return (
     <S.TableRow key={operation.operation.id}>

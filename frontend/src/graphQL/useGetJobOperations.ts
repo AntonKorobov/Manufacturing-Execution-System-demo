@@ -30,6 +30,6 @@ export function useGetJobOperations({
     operationsError: error,
     operationsIsLoading: isLoading,
     operationsIsValidating: isValidating,
-    refreshOperations: mutate,
+    revalidateOperations: mutate,
   };
 }
