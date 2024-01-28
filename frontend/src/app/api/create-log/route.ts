@@ -9,24 +9,43 @@ export async function POST(req: NextRequest) {
 
   const {
     job_id,
-    job_operation_duration,
+    job_operation_qty_in,
     job_operation_qty_out,
-    job_operation_status_id,
     operation_id,
+    updated_at,
   } = body.event.data.new;
 
-  const bodyRequest = {
-    query: POST_OPERATION_LOG({
+  let newStatusId = body.event.data.new.job_operation_status_id;
+  // const oldStatusId = body.event.data.old.job_operation_status_id;
+
+  const bodyRequest = { query: '' };
+  //Pressed START button
+  if (newStatusId === 3) {
+    bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
-      logDuration: 0, //last timestamp - current
-      logStartTime: null,
+      logStartTime: updated_at,
       logEndTime: null,
-      logQtyIn: 0,
+      logQtyIn: job_operation_qty_in,
       logQtyOut: job_operation_qty_out,
-      logStatus: job_operation_status_id,
+      logStatus: newStatusId,
       operationId: operation_id,
-    }),
-  };
+    });
+  }
+  //Pressed STOP button
+  if (newStatusId === 2) {
+    if (job_operation_qty_out >= job_operation_qty_in) {
+      newStatusId = 4;
+    }
+    bodyRequest.query = POST_OPERATION_LOG({
+      jobId: job_id,
+      logStartTime: null,
+      logEndTime: updated_at,
+      logQtyIn: job_operation_qty_in,
+      logQtyOut: job_operation_qty_out,
+      logStatus: newStatusId,
+      operationId: operation_id,
+    });
+  }
 
   try {
     const response = await fetch(process.env.HASURA_PROJECT_ENDPOINT as string, {

@@ -39,7 +39,6 @@ export const PUT_JOB_OPERATION_STATUS = ({
 
 export const POST_OPERATION_LOG = ({
   jobId,
-  logDuration,
   logStartTime,
   logEndTime,
   logQtyIn,
@@ -48,7 +47,6 @@ export const POST_OPERATION_LOG = ({
   operationId,
 }: {
   jobId: number;
-  logDuration: number;
   logStartTime: string | null;
   logEndTime: string | null;
   logQtyIn: number;
@@ -59,7 +57,6 @@ export const POST_OPERATION_LOG = ({
   mutation {
     insert_logs(objects: {
       job_id: ${jobId}, 
-      log_duration: ${logDuration}, 
       log_start_time: ${logStartTime}, 
       log_end_time: ${logEndTime}, 
       log_qty_in: ${logQtyIn}, 
