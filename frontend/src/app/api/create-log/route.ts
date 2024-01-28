@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     if (job_operation_qty_out >= job_operation_qty_in) {
       newStatusId = 4;
       //change status in job_operation
-      fetch(process.env.HASURA_PROJECT_ENDPOINT as string, {
+      await fetch(process.env.HASURA_PROJECT_ENDPOINT as string, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
