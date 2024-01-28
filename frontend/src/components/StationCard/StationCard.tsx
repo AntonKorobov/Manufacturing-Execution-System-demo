@@ -1,4 +1,4 @@
-import { StationTypes } from '@/graphQL/types';
+import { StationStatuses } from '@/graphQL/types';
 
 import * as S from './StationCard.styled';
 
@@ -7,7 +7,7 @@ interface StationCardProps {
   stationName: string;
   stationType: string;
   stationCode: string;
-  stationStatus: StationTypes;
+  stationStatus: StationStatuses;
   isValidating: boolean;
 }
 
