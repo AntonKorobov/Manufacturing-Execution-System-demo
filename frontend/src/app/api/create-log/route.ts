@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   if (newStatusId === 3) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
-      logStartTime: updated_at,
+      logStartTime: updated_at.toString(),
       logEndTime: null,
       logQtyIn: job_operation_qty_in,
       logQtyOut: job_operation_qty_out,
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
       logStartTime: null,
-      logEndTime: updated_at,
+      logEndTime: updated_at.toString(),
       logQtyIn: job_operation_qty_in,
       logQtyOut: job_operation_qty_out,
       logStatus: newStatusId,
@@ -57,9 +57,9 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(bodyRequest),
     }).then((data) => data.json());
 
-    if (response.error) {
+    if (response.errors) {
       return NextResponse.json(
-        { message: `Can't get data from database`, error: response.error },
+        { message: `Can't get data from database`, error: response.errors },
         { status: 500 }
       );
     } else
