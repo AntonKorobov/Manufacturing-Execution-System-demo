@@ -55,20 +55,11 @@ export const POST_OPERATION_LOG = ({
   operationId: number;
 }) => `
   mutation {
-    insert_logs(objects: {
-      job_id: ${jobId}, 
-      log_start_time: ${logStartTime}, 
-      log_end_time: ${logEndTime}, 
-      log_qty_in: ${logQtyIn}, 
-      log_qty_out: ${logQtyOut}, 
-      log_status: ${logStatus}, 
-      operation_id: ${operationId}
-    }) {
+    insert_logs(objects: {job_id: ${jobId}, log_start_time: ${logStartTime}, log_end_time: ${logEndTime}, log_qty_in: ${logQtyIn}, log_qty_out: ${logQtyOut}, log_status: ${logStatus}, operation_id: ${operationId}}) {
       returning {
         log_status
         log_end_time
         log_start_time
-        log_duration
       }
     }
   }
