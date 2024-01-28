@@ -27,6 +27,10 @@ export const Table = styled(TableMUI)`
 
 export const TableHead = styled(TableHeadMUI)`
   height: 100px;
+  position: sticky;
+  top: 0;
+  background-color: ${(props) => props.theme.color.mainWhite};
+  z-index: 1000;
 `;
 
 export const TableRow = styled(TableRowMUI)``;
