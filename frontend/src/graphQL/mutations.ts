@@ -36,3 +36,43 @@ export const PUT_JOB_OPERATION_STATUS = ({
     }
   }
 `;
+
+export const POST_OPERATION_LOG = ({
+  jobId,
+  logDuration,
+  logStartTime,
+  logEndTime,
+  logQtyIn,
+  logQtyOut,
+  logStatus,
+  operation_id,
+}: {
+  jobId: number;
+  logDuration: number;
+  logStartTime: string | null;
+  logEndTime: string | null;
+  logQtyIn: number;
+  logQtyOut: number;
+  logStatus: number;
+  operation_id: number;
+}) => `
+  mutation {
+    insert_logs(objects: {
+      job_id: ${jobId}, 
+      log_duration: ${logDuration}, 
+      log_start_time: ${logStartTime}, 
+      log_end_time: ${logEndTime}, 
+      log_qty_in: ${logQtyIn}, 
+      log_qty_out: ${logQtyOut}, 
+      log_status: ${logStatus}, 
+      operation_id: ${operation_id}
+    }) {
+      returning {
+        log_status
+        log_end_time
+        log_start_time
+        log_duration
+      }
+    }
+  }
+`;
