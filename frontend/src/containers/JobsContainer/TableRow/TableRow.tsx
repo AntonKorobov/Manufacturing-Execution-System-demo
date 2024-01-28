@@ -17,7 +17,7 @@ import { useIsUpdating } from '@/hooks/useIsUpdating';
 
 import { convertMillisecondsToTime } from '@/utils/convertMillisecondsToTime';
 
-import { Job, Operation } from '@/graphQL/types';
+import { Job, Operation, OperationStatuses } from '@/graphQL/types';
 import { ActionButtonTypes } from '@/components/types';
 
 import * as TABLE from '../constants';
@@ -175,30 +175,38 @@ function OperationRow({
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
         <S.ButtonsWrapper>
-          <ActionButton
-            type={ActionButtonTypes.START}
-            onClick={() => {
-              changeStationStatus({ statusCode: 2 });
-              changeJobOperationStatus({ statusCode: 3 });
-            }}
-          >
-            Start
-          </ActionButton>
-          <ActionButton
-            type={ActionButtonTypes.STOP}
-            onClick={() => {
-              changeStationStatus({ statusCode: 5 });
-              changeJobOperationStatus({ statusCode: 2 });
-            }}
-          >
-            Stop
-          </ActionButton>
-          <CounterInput
-            value={operation.job_operation_qty_out}
-            onChange={(value) => {
-              changeJobOperationQty({ qty: value });
-            }}
-          />
+          {operation.operation_status.operation_status_name ===
+            OperationStatuses.QUEUED && (
+            <ActionButton
+              type={ActionButtonTypes.START}
+              onClick={() => {
+                changeStationStatus({ statusCode: 2 });
+                changeJobOperationStatus({ statusCode: 3 });
+              }}
+            >
+              Start
+            </ActionButton>
+          )}
+          {operation.operation_status.operation_status_name ===
+            OperationStatuses.IN_PROGRESS && (
+            <>
+              <ActionButton
+                type={ActionButtonTypes.STOP}
+                onClick={() => {
+                  changeStationStatus({ statusCode: 5 });
+                  changeJobOperationStatus({ statusCode: 2 });
+                }}
+              >
+                Stop
+              </ActionButton>
+              <CounterInput
+                value={operation.job_operation_qty_out}
+                onChange={(value) => {
+                  changeJobOperationQty({ qty: value });
+                }}
+              />
+            </>
+          )}
         </S.ButtonsWrapper>
       </TableCell>
     </S.TableRow>
