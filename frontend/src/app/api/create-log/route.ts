@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   if (newStatusId === 3) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
-      logStartTime: updated_at,
+      logStartTime: `"${updated_at}"`,
       logEndTime: null,
       logQtyIn: job_operation_qty_in,
       logQtyOut: job_operation_qty_out,
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
       logStartTime: null,
-      logEndTime: updated_at,
+      logEndTime: `"${updated_at}"`,
       logQtyIn: job_operation_qty_in,
       logQtyOut: job_operation_qty_out,
       logStatus: newStatusId,
@@ -54,16 +54,7 @@ export async function POST(req: NextRequest) {
         'content-type': 'application/json',
         'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
       },
-      body: JSON.stringify({
-        query: `mutation {insert_logs(objects: {job_id: 1, log_start_time: "2024-01-28T16:50:09.202787+00:00", log_end_time: null, log_qty_in: 2, log_qty_out: 1, log_status: 3, operation_id: 1}) { 
-          returning {  
-            log_status,
-            log_end_time,
-            log_start_time     
-          }   
-        }  
-        }`,
-      }),
+      body: JSON.stringify(bodyRequest),
     }).then((data) => data.json());
 
     if (response.errors) {
