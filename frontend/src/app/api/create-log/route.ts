@@ -2,7 +2,7 @@ export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { POST_OPERATION_LOG } from '@/graphQL/mutations';
+import { POST_OPERATION_LOG, PUT_JOB_OPERATION_STATUS } from '@/graphQL/mutations';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -35,6 +35,17 @@ export async function POST(req: NextRequest) {
   if (newStatusId === 2) {
     if (job_operation_qty_out >= job_operation_qty_in) {
       newStatusId = 4;
+      //change status in job_operation
+      fetch(process.env.HASURA_PROJECT_ENDPOINT as string, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
+        },
+        body: JSON.stringify({
+          query: PUT_JOB_OPERATION_STATUS({ id: operation_id, statusCode: newStatusId }),
+        }),
+      }).then((data) => data.json());
     }
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
