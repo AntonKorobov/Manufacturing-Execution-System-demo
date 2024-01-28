@@ -7,8 +7,8 @@ export const convertMillisecondsToTime = (milliseconds: number) => {
   minutes = minutes % 60;
 
   return {
-    hrs: hours,
-    min: minutes,
-    sec: seconds,
+    hrs: hours < 10 ? `0${hours}` : hours,
+    min: minutes < 10 ? `0${minutes}` : minutes,
+    sec: seconds < 10 ? `0${seconds}` : seconds,
   };
 };

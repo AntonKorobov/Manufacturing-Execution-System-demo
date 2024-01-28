@@ -14,6 +14,7 @@ import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
 import { usePostJobOperationQty } from '@/graphQL/usePostJobOperationQty';
 import { usePostJobOperationStatus } from '@/graphQL/usePostJobOperationStatus';
 import { useIsUpdating } from '@/hooks/useIsUpdating';
+import { useTimer } from '@/hooks/useTimer';
 
 import { convertMillisecondsToTime } from '@/utils/convertMillisecondsToTime';
 
@@ -122,6 +123,23 @@ function OperationRow({
     sec: expected_sec,
   } = convertMillisecondsToTime(operation.operation.operation_expected_time);
 
+  const {
+    seconds,
+    start: startTimer,
+    pause: pauseTimer,
+  } = useTimer({
+    initialSeconds: 0,
+    initiallyRunning: false,
+  });
+
+  const {
+    hrs: processed_hrs,
+    min: processed_min,
+    sec: processed_sec,
+  } = convertMillisecondsToTime(
+    operation.operation.operation_expected_time + seconds * 1000
+  );
+
   const [isUpdating] = useIsUpdating({
     isMutating: [
       isStationStatusChanging,
@@ -155,7 +173,7 @@ function OperationRow({
         {`${expected_hrs}:${expected_min}:${expected_sec}`}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_4} align="center">
-        {`${expected_hrs}:${expected_min}:${expected_sec}`}
+        {`${processed_hrs}:${processed_min}:${processed_sec}`}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_5} align="center">
         {!isUpdating ? (
@@ -180,6 +198,7 @@ function OperationRow({
             <ActionButton
               type={ActionButtonTypes.START}
               onClick={() => {
+                startTimer();
                 changeStationStatus({ statusCode: 2 });
                 changeJobOperationStatus({ statusCode: 3 });
               }}
@@ -193,6 +212,7 @@ function OperationRow({
               <ActionButton
                 type={ActionButtonTypes.STOP}
                 onClick={() => {
+                  pauseTimer();
                   changeStationStatus({ statusCode: 5 });
                   changeJobOperationStatus({ statusCode: 2 });
                 }}
