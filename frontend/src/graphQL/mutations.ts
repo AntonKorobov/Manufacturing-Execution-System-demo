@@ -21,3 +21,18 @@ mutation {
     }
   }
 `;
+
+export const PUT_JOB_OPERATION_STATUS = ({
+  id,
+  statusCode,
+}: {
+  id: number;
+  statusCode: number;
+}) => `
+  mutation {
+    update_job_operation_by_pk(pk_columns: {id: ${id}}, _set: {job_operation_status_id: ${statusCode}}) {
+      id
+      job_operation_status_id
+    }
+  }
+`;

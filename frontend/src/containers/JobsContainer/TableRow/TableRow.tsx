@@ -12,6 +12,7 @@ import { CounterInput } from '@/components/CounterInput/CounterInput';
 import { useGetJobOperations } from '@/graphQL/useGetJobOperations';
 import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
 import { usePostJobOperationQty } from '@/graphQL/usePostJobOperationQty';
+import { usePostJobOperationStatus } from '@/graphQL/usePostJobOperationStatus';
 import { useIsUpdating } from '@/hooks/useIsUpdating';
 
 import { convertMillisecondsToTime } from '@/utils/convertMillisecondsToTime';
@@ -110,6 +111,11 @@ function OperationRow({
     id: operation.operation.id,
   });
 
+  const { isJobOperationStatusChanging, changeJobOperationStatus } =
+    usePostJobOperationStatus({
+      id: operation.operation.id,
+    });
+
   const {
     hrs: expected_hrs,
     min: expected_min,
@@ -117,7 +123,11 @@ function OperationRow({
   } = convertMillisecondsToTime(operation.operation.operation_expected_time);
 
   const [isUpdating] = useIsUpdating({
-    isMutating: [isStationStatusChanging, isJobOperationQtyChanging],
+    isMutating: [
+      isStationStatusChanging,
+      isJobOperationQtyChanging,
+      isJobOperationStatusChanging,
+    ],
     isValidating: isValidating,
     forceRevalidation: [revalidateOperations],
   });
@@ -156,7 +166,11 @@ function OperationRow({
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
         <StatusIcon type={operation.operation_status.operation_status_name}>
-          {operation.operation_status.operation_status_name}
+          {!isUpdating ? (
+            operation.operation_status.operation_status_name
+          ) : (
+            <Loading size={20} />
+          )}
         </StatusIcon>
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
@@ -165,6 +179,7 @@ function OperationRow({
             type={ActionButtonTypes.START}
             onClick={() => {
               changeStationStatus({ statusCode: 2 });
+              changeJobOperationStatus({ statusCode: 3 });
             }}
           >
             Start
@@ -173,6 +188,7 @@ function OperationRow({
             type={ActionButtonTypes.STOP}
             onClick={() => {
               changeStationStatus({ statusCode: 5 });
+              changeJobOperationStatus({ statusCode: 2 });
             }}
           >
             Stop
