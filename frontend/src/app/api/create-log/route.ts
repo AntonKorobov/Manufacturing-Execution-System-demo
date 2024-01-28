@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       );
     } else
       return NextResponse.json(
-        { message: 'log was created successfully' },
+        { message: 'log was created successfully', data: response },
         { status: 200 }
       );
   } catch (error) {
