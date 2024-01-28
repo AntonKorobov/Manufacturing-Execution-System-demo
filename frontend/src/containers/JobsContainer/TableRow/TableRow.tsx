@@ -140,6 +140,8 @@ function OperationRow({
     operation.operation.operation_expected_time + seconds * 1000
   );
 
+  const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
+
   const [isUpdating] = useIsUpdating({
     isMutating: [
       isStationStatusChanging,
@@ -200,7 +202,7 @@ function OperationRow({
               onClick={() => {
                 startTimer();
                 changeStationStatus({ statusCode: 2 });
-                changeJobOperationStatus({ statusCode: 2 });
+                changeJobOperationStatus({ statusCode: 3 });
               }}
             >
               Start
@@ -214,7 +216,7 @@ function OperationRow({
                 onClick={() => {
                   pauseTimer();
                   changeStationStatus({ statusCode: 5 });
-                  operation.job_operation_qty_out >= jobQty
+                  currentQty >= jobQty
                     ? changeJobOperationStatus({ statusCode: 4 })
                     : changeJobOperationStatus({ statusCode: 2 });
                 }}
@@ -222,8 +224,9 @@ function OperationRow({
                 Stop
               </ActionButton>
               <CounterInput
-                value={operation.job_operation_qty_out}
+                value={currentQty}
                 onChange={(value) => {
+                  setCurrentQty(value);
                   changeJobOperationQty({ qty: value });
                 }}
               />
