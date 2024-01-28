@@ -7,3 +7,7 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(body.event.data.new, { status: 200 });
 }
+
+export async function GET() {
+  return NextResponse.json({ message: `success` }, { status: 200 });
+}
