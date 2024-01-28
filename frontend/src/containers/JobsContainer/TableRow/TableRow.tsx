@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,6 +11,7 @@ import { CounterInput } from '@/components/CounterInput/CounterInput';
 
 import { useGetJobOperations } from '@/graphQL/useGetJobOperations';
 import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
+import { usePostJobOperationQty } from '@/graphQL/usePostJobOperationQty';
 import { useIsUpdating } from '@/hooks/useIsUpdating';
 
 import { convertMillisecondsToTime } from '@/utils/convertMillisecondsToTime';
@@ -105,18 +106,20 @@ function OperationRow({
     id: operation.operation.station.id,
   });
 
+  const { isJobOperationQtyChanging, changeJobOperationQty } = usePostJobOperationQty({
+    id: operation.operation.id,
+  });
+
   const {
     hrs: expected_hrs,
     min: expected_min,
     sec: expected_sec,
   } = convertMillisecondsToTime(operation.operation.operation_expected_time);
 
-  const [operationQty, setOperationQty] = useState(operation.job_operation_qty_out); //from DB
-
   const [isUpdating] = useIsUpdating({
-    isMutating: isStationStatusChanging,
+    isMutating: [isStationStatusChanging, isJobOperationQtyChanging],
     isValidating: isValidating,
-    forceRevalidation: revalidateOperations,
+    forceRevalidation: [revalidateOperations],
   });
 
   return (
@@ -145,7 +148,11 @@ function OperationRow({
         {`${expected_hrs}:${expected_min}:${expected_sec}`}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_5} align="center">
-        {`${operationQty}/${jobQty}`}
+        {!isUpdating ? (
+          `${operation.job_operation_qty_out}/${jobQty}`
+        ) : (
+          <Loading size={20} />
+        )}
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
         <StatusIcon type={operation.operation_status.operation_status_name}>
@@ -170,7 +177,12 @@ function OperationRow({
           >
             Stop
           </ActionButton>
-          <CounterInput onChange={setOperationQty} />
+          <CounterInput
+            value={operation.job_operation_qty_out}
+            onChange={(value) => {
+              changeJobOperationQty({ qty: value });
+            }}
+          />
         </S.ButtonsWrapper>
       </TableCell>
     </S.TableRow>

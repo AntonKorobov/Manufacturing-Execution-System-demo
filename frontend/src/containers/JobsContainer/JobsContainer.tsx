@@ -15,25 +15,21 @@ export function JobsContainer({ jobs }: { jobs: getJobsResponse }) {
       <S.Table aria-label="simple table">
         <S.TableHead>
           <S.TableRow>
-            <TableCell width={TABLE.COLUMN_WIDTH_1} className="column1">
-              Order name
-            </TableCell>
-            <TableCell width={TABLE.COLUMN_WIDTH_2} className="column2">
-              Job name
-            </TableCell>
-            <TableCell width={TABLE.COLUMN_WIDTH_3} align="center" className="column3">
+            <TableCell width={TABLE.COLUMN_WIDTH_1}>Order name</TableCell>
+            <TableCell width={TABLE.COLUMN_WIDTH_2}>Job name</TableCell>
+            <TableCell width={TABLE.COLUMN_WIDTH_3} align="center">
               Expected time
             </TableCell>
-            <TableCell width={TABLE.COLUMN_WIDTH_4} align="center" className="column3">
+            <TableCell width={TABLE.COLUMN_WIDTH_4} align="center">
               Processed time
             </TableCell>
-            <TableCell width={TABLE.COLUMN_WIDTH_5} align="center" className="column3">
+            <TableCell width={TABLE.COLUMN_WIDTH_5} align="center">
               Qty
             </TableCell>
-            <TableCell width={TABLE.COLUMN_WIDTH_6} align="center" className="column4">
+            <TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
               Status
             </TableCell>
-            <TableCell width={TABLE.COLUMN_WIDTH_7} align="center" className="column4">
+            <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
               Actions
             </TableCell>
           </S.TableRow>

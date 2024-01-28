@@ -12,3 +12,12 @@ export const PUT_STATION_STATUS = ({
     }
   }
 `;
+
+export const PUT_JOB_OPERATION_QTY_OUT = ({ id, qty }: { id: number; qty: number }) => `
+mutation {
+    update_job_operation_by_pk(pk_columns: {id: ${id}}, _set: {job_operation_qty_out: ${qty}}) {
+      id
+      job_operation_qty_out
+    }
+  }
+`;

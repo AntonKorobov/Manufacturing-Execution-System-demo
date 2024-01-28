@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 interface useIsUpdatingProps {
-  isMutating: boolean;
+  isMutating: boolean[];
   isValidating: boolean;
-  forceRevalidation: VoidFunction;
+  forceRevalidation: VoidFunction[];
 }
 
 export function useIsUpdating({
@@ -14,11 +14,11 @@ export function useIsUpdating({
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    if (isMutating) {
+    if (isMutating.includes(true)) {
       setIsUpdating(true);
-      forceRevalidation();
+      forceRevalidation.forEach((func) => func());
     }
-    if (!isMutating && !isValidating) {
+    if (!isMutating.includes(true) && !isValidating) {
       setIsUpdating(false);
     }
   }, [isMutating, isValidating]);
