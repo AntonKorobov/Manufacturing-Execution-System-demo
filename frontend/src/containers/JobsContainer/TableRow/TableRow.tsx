@@ -200,7 +200,7 @@ function OperationRow({
               onClick={() => {
                 startTimer();
                 changeStationStatus({ statusCode: 2 });
-                changeJobOperationStatus({ statusCode: 3 });
+                changeJobOperationStatus({ statusCode: 2 });
               }}
             >
               Start
@@ -214,7 +214,9 @@ function OperationRow({
                 onClick={() => {
                   pauseTimer();
                   changeStationStatus({ statusCode: 5 });
-                  changeJobOperationStatus({ statusCode: 2 });
+                  operation.job_operation_qty_out >= jobQty
+                    ? changeJobOperationStatus({ statusCode: 4 })
+                    : changeJobOperationStatus({ statusCode: 2 });
                 }}
               >
                 Stop
