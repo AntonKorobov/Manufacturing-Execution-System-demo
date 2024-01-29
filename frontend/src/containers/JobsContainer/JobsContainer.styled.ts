@@ -6,7 +6,7 @@ import { TableRow as TableRowMUI } from '@mui/material/';
 import { TableCell as TableCellMUI } from '@mui/material/';
 
 export const TableContainer = styled.div`
-  height: calc(100vh - 200px);
+  height: 100%;
   overflow: auto;
 `;
 

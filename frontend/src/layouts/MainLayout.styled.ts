@@ -10,12 +10,13 @@ export const LayoutWrapper = styled.div`
     grid-template-areas:
       'n h'
       'n m'
-      'n f';
+      'n m';
     height: 100%;
   }
 `;
 
 export const Main = styled.main`
   grid-area: m;
+  height: calc(100vh - 200px);
   background-color: ${(props) => props.theme.color.mainWhite};
 `;

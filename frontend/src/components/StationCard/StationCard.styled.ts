@@ -6,7 +6,7 @@ import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
 
 export const Wrapper = styled(Link)`
   width: 24%;
-  height: 48%;
+  height: 49%;
   padding: 10px;
   border: 1px solid ${(props) => props.theme.color.grayLight};
   font-size: ${(props) => props.theme.fontSize.md};

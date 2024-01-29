@@ -1,16 +1,19 @@
 import * as S from './Pagination.styled';
 
-interface PaginationProps {
+export function Pagination({
+  count,
+  page,
+  onChange,
+}: {
+  count: number;
   page: number;
-  handleChange: VoidFunction;
-}
-
-export function Pagination({ page, handleChange }: PaginationProps) {
+  onChange: (event: React.ChangeEvent<unknown>, value: number) => void;
+}) {
   return (
     <S.Pagination
-      count={10}
+      count={count}
       page={page}
-      onChange={handleChange}
+      onChange={onChange}
       variant="outlined"
       shape="rounded"
       renderItem={(item) => <S.PaginationItem {...item} />}

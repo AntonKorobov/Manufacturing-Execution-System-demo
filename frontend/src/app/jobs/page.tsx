@@ -1,11 +1,21 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Loading } from '@/components/Loading/Loading';
 import { JobsContainer } from '@/containers/JobsContainer/JobsContainer';
+import { Pagination } from '@/components/Pagination/Pagination';
 
 import { useGetJobs } from '@/graphQL/useGetJobs';
 
+import * as S from './page.styled';
+
 export default function JobsPage() {
+  const [page, setPage] = useState(1);
+
+  const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) =>
+    setPage(value);
+
   const { jobs, jobsError, jobsIsLoading } = useGetJobs({
     pageNumber: 0,
   });
@@ -14,6 +24,9 @@ export default function JobsPage() {
     <>
       {jobsIsLoading && <Loading size={80} />}
       {jobs && <JobsContainer jobs={jobs} />}
+      <S.PaginationWrapper>
+        <Pagination count={1} page={page} onChange={handlePaginate} />
+      </S.PaginationWrapper>
     </>
   );
 }
