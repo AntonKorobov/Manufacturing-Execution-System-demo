@@ -84,9 +84,11 @@ function calculateStatusCode(operations: getJobOperationsResponse) {
     return prev;
   }, {});
 
-  if (OperationStatuses.IN_PROGRESS in statuses) statusCode = 3;
-
-  if (OperationStatuses.QUEUED in statuses) statusCode = 2;
+  if (OperationStatuses.IN_PROGRESS in statuses) {
+    statusCode = 3;
+  } else if (OperationStatuses.QUEUED in statuses) {
+    statusCode = 2;
+  }
 
   return statusCode;
 }
