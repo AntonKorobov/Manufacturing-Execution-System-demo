@@ -16,7 +16,7 @@ import { usePostJobOperationStatus } from '@/graphQL/usePostJobOperationStatus';
 import { useIsUpdating } from '@/hooks/useIsUpdating';
 import { useTimer } from '@/hooks/useTimer';
 
-import { convertMillisecondsToTime } from '@/utils/convertMillisecondsToTime';
+import { convertSecondsToTime } from '@/utils/convertSecondsToTime';
 
 import { Job, Operation, OperationStatuses } from '@/graphQL/types';
 import { ActionButtonTypes } from '@/components/types';
@@ -136,14 +136,15 @@ function OperationRow({
     hrs: expected_hrs,
     min: expected_min,
     sec: expected_sec,
-  } = convertMillisecondsToTime(operation.operation.operation_expected_time);
+  } = convertSecondsToTime(operation.operation.operation_expected_time);
 
   const {
-    seconds,
+    seconds: timerSeconds,
     start: startTimer,
     pause: pauseTimer,
+    reset: resetTimer,
   } = useTimer({
-    initialSeconds: 0,
+    initialSeconds: operation.job_operation_duration,
     initiallyRunning: false,
   });
 
@@ -151,7 +152,7 @@ function OperationRow({
     hrs: processed_hrs,
     min: processed_min,
     sec: processed_sec,
-  } = convertMillisecondsToTime(operation.job_operation_duration + seconds * 1000);
+  } = convertSecondsToTime(timerSeconds);
 
   const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
 
@@ -207,7 +208,7 @@ function OperationRow({
               onClick={() => {
                 startTimer();
                 changeStationStatus({ statusCode: 2 });
-                changeJobOperationStatus({ statusCode: 3, duration: seconds * 1000 });
+                changeJobOperationStatus({ statusCode: 3, duration: timerSeconds });
               }}
             >
               Start
@@ -224,11 +225,11 @@ function OperationRow({
                   currentQty >= jobQty
                     ? changeJobOperationStatus({
                         statusCode: 4,
-                        duration: seconds * 1000,
+                        duration: timerSeconds,
                       })
                     : changeJobOperationStatus({
                         statusCode: 2,
-                        duration: seconds * 1000,
+                        duration: timerSeconds,
                       });
                 }}
               >
@@ -237,6 +238,7 @@ function OperationRow({
               <CounterInput
                 value={currentQty}
                 onChange={(value) => {
+                  resetTimer();
                   setCurrentQty(value);
                   changeJobOperationQty({ qty: value });
                 }}

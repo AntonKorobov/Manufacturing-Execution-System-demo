@@ -1,5 +1,4 @@
-export const convertMillisecondsToTime = (milliseconds: number) => {
-  let seconds = Math.floor(milliseconds / 1000);
+export const convertSecondsToTime = (seconds: number) => {
   let minutes = Math.floor(seconds / 60);
   let hours = Math.floor(minutes / 60);
 
