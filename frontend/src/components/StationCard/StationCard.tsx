@@ -8,7 +8,6 @@ interface StationCardProps {
   stationType: string;
   stationCode: string;
   stationStatus: StationStatuses;
-  isValidating: boolean;
 }
 
 export function StationCard({
@@ -17,7 +16,6 @@ export function StationCard({
   stationType,
   stationCode,
   stationStatus,
-  isValidating,
 }: StationCardProps) {
   return (
     <S.Wrapper href={'/jobs'}>
@@ -30,19 +28,21 @@ export function StationCard({
         ></S.ImageNext>
       </S.ImageContainer>
       <S.List>
-        <li>
+        <S.Item>
           Name: <span>{stationName}</span>
-        </li>
-        <li>
+        </S.Item>
+        <S.Item>
           Type: <span>{stationType}</span>
-        </li>
-        <li>
+        </S.Item>
+        <S.Item>
           Code: <span>{stationCode}</span>
-        </li>
-        <li>
-          Status:
-          <S.Status type={stationStatus}>{stationStatus}</S.Status>
-        </li>
+        </S.Item>
+        <S.Item>
+          <S.StatusWrapper>
+            Status:
+            <S.StatusIcon type={stationStatus}>{stationStatus}</S.StatusIcon>
+          </S.StatusWrapper>
+        </S.Item>
       </S.List>
     </S.Wrapper>
   );

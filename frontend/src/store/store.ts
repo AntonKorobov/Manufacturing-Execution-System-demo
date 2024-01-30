@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import stationsSlice from '@/store/reducers/stationsReducer';
 
 export const store = configureStore({

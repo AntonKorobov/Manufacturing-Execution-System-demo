@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
+import { StatusIcon as StatusIconComponents } from '@/components/StatusIcon/StatusIcon';
 
 export const Wrapper = styled(Link)`
   width: 24%;
@@ -11,7 +11,7 @@ export const Wrapper = styled(Link)`
   border: 1px solid ${(props) => props.theme.color.grayLight};
   font-size: ${(props) => props.theme.fontSize.md};
   &:hover {
-    border-color: ${(props) => props.theme.color.mainBlue};
+    box-shadow: 0px 0px 16px -1px ${(props) => props.theme.color.mainBlue};
     img {
       transition-duration: 1s;
       transform: scale(1.1);
@@ -24,8 +24,10 @@ export const List = styled.ul`
   list-style-type: none;
 `;
 
+export const Item = styled.li``;
+
 export const ImageContainer = styled.div`
-  height: 60%;
+  height: 70%;
   overflow: hidden;
 `;
 
@@ -36,8 +38,13 @@ export const ImageNext = styled(Image)`
   overflow: hidden;
 `;
 
-export const Status = styled(StatusIcon)`
+export const StatusIcon = styled(StatusIconComponents)`
   height: 20px;
-  width: 40%;
+  width: fit-content;
   font-size: ${(props) => props.theme.fontSize.md};
+`;
+
+export const StatusWrapper = styled.div`
+  display: flex;
+  gap: 10px;
 `;

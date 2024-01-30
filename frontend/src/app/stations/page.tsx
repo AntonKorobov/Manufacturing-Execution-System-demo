@@ -24,9 +24,7 @@ export default function StationsPage() {
   return (
     <>
       {stationsIsLoading && <Loading size={80} />}
-      {stations && (
-        <StationsContainer stations={stations} isValidating={stationsIsisValidating} />
-      )}
+      {stations && <StationsContainer stations={stations} />}
       <S.PaginationWrapper>
         <Pagination count={2} page={page} onChange={handlePaginate} />
       </S.PaginationWrapper>
