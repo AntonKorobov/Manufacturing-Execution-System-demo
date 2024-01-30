@@ -1,10 +1,14 @@
 import useSWRMutation from 'swr/mutation';
 
-const fetcher = (url: string, { arg }: { arg: { statusCode: number } }) =>
+const fetcher = (
+  url: string,
+  { arg }: { arg: { statusCode: number; duration: number } }
+) =>
   fetch(url, {
     method: 'PUT',
     body: JSON.stringify({
       statusCode: arg.statusCode,
+      duration: arg.duration,
     }),
   }).then((res) => {
     if (!res.ok) {

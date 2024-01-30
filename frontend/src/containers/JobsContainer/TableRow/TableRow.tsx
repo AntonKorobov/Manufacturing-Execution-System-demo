@@ -151,9 +151,7 @@ function OperationRow({
     hrs: processed_hrs,
     min: processed_min,
     sec: processed_sec,
-  } = convertMillisecondsToTime(
-    operation.operation.operation_expected_time + seconds * 1000
-  );
+  } = convertMillisecondsToTime(operation.job_operation_duration + seconds * 1000);
 
   const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
 
@@ -209,7 +207,7 @@ function OperationRow({
               onClick={() => {
                 startTimer();
                 changeStationStatus({ statusCode: 2 });
-                changeJobOperationStatus({ statusCode: 3 });
+                changeJobOperationStatus({ statusCode: 3, duration: seconds * 1000 });
               }}
             >
               Start
@@ -224,8 +222,14 @@ function OperationRow({
                   pauseTimer();
                   changeStationStatus({ statusCode: 5 });
                   currentQty >= jobQty
-                    ? changeJobOperationStatus({ statusCode: 4 })
-                    : changeJobOperationStatus({ statusCode: 2 });
+                    ? changeJobOperationStatus({
+                        statusCode: 4,
+                        duration: seconds * 1000,
+                      })
+                    : changeJobOperationStatus({
+                        statusCode: 2,
+                        duration: seconds * 1000,
+                      });
                 }}
               >
                 Stop

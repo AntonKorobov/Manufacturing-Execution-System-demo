@@ -12,8 +12,12 @@ export async function PUT(req: NextRequest) {
   if (body.qty !== undefined) {
     bodyRequest.query = PUT_JOB_OPERATION_QTY_OUT({ id, qty: body.qty });
   }
-  if (body.statusCode !== undefined) {
-    bodyRequest.query = PUT_JOB_OPERATION_STATUS({ id, statusCode: body.statusCode });
+  if (body.statusCode !== undefined && body.duration !== undefined) {
+    bodyRequest.query = PUT_JOB_OPERATION_STATUS({
+      id,
+      statusCode: body.statusCode,
+      duration: body.duration,
+    });
   }
 
   try {

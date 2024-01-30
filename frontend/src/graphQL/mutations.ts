@@ -27,12 +27,14 @@ export const PUT_JOB_OPERATION_QTY_OUT = ({ id, qty }: { id: number; qty: number
 export const PUT_JOB_OPERATION_STATUS = ({
   id,
   statusCode,
+  duration,
 }: {
   id: number;
   statusCode: number;
+  duration: number;
 }) => `
   mutation {
-    update_job_operation(where: {operation_id: {_eq: ${id}}}, _set: {job_operation_status_id: ${statusCode}}) {
+    update_job_operation(where: {operation_id: {_eq: ${id}}}, _set: {job_operation_status_id: ${statusCode}, job_operation_duration: ${duration}}) {
       returning {
         job_operation_status_id
         operation_id

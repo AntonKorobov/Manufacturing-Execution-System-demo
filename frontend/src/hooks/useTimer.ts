@@ -12,6 +12,7 @@ export const useTimer = ({ initialSeconds = 0, initiallyRunning = false } = {}) 
   const start = () => setRunning(true);
   const pause = () => setRunning(false);
   const reset = () => setSeconds(0);
+  const set = (seconds: number) => setSeconds(seconds);
   const stop = () => {
     pause();
     reset();
@@ -23,5 +24,5 @@ export const useTimer = ({ initialSeconds = 0, initiallyRunning = false } = {}) 
     return () => clearInterval(id);
   }, [tick]);
 
-  return { pause, reset, running, seconds, start, stop };
+  return { pause, reset, running, seconds, start, stop, set };
 };
