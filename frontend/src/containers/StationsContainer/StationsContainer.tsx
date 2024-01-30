@@ -16,6 +16,7 @@ export function StationsContainer({ stations }: { stations: getStationsResponse 
             stationCode={station.station_code}
             stationStatus={station.station_status.station_status_name}
             stationType={station.station_type}
+            url={`/stations/${station.id}/jobs`}
           />
         );
       })}

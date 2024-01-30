@@ -8,6 +8,7 @@ interface StationCardProps {
   stationType: string;
   stationCode: string;
   stationStatus: StationStatuses;
+  url: string;
 }
 
 export function StationCard({
@@ -16,9 +17,10 @@ export function StationCard({
   stationType,
   stationCode,
   stationStatus,
+  url,
 }: StationCardProps) {
   return (
-    <S.Wrapper href={'/jobs'}>
+    <S.Wrapper href={url}>
       <S.ImageContainer>
         <S.ImageNext
           src={stationImgUrl}
