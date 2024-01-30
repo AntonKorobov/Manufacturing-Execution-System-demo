@@ -79,21 +79,14 @@ async function postJobStatus({
 function calculateStatusCode(operations: getJobOperationsResponse) {
   let statusCode = 4;
 
-  for (let i = 0; i < operations.length; i++) {
-    if (
-      operations[i].operation_status.operation_status_name ===
-      OperationStatuses.IN_PROGRESS
-    ) {
-      statusCode = 3;
-      break;
-    }
-    if (
-      operations[i].operation_status.operation_status_name === OperationStatuses.QUEUED
-    ) {
-      statusCode = 2;
-      break;
-    }
-  }
+  const statuses = operations.reduce((prev, curr) => {
+    prev[curr.operation_status.operation_status_name] = 1;
+    return prev;
+  }, {});
+
+  if (OperationStatuses.IN_PROGRESS in statuses) statusCode = 3;
+
+  if (OperationStatuses.QUEUED in statuses) statusCode = 2;
 
   return statusCode;
 }
