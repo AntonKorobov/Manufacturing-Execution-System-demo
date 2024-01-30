@@ -70,3 +70,21 @@ export const POST_OPERATION_LOG = ({
     }
   }
 `;
+
+export const PUT_JOB_STATUS = ({
+  id,
+  statusCode,
+}: {
+  id: number;
+  statusCode: number;
+}) => `
+  mutation {
+    update_jobs(where: {id: {_eq: ${id}}}, _set: {job_status_id: ${statusCode}}) {
+      returning {
+        job_status {
+          job_status_name
+        }
+      }
+    }
+  }
+`;
