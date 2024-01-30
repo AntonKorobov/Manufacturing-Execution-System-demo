@@ -16,22 +16,13 @@ export async function PUT(req: NextRequest) {
       return postJobStatus({ jobId: job_id, statusCode: newStatusCode });
     });
 
-    if (response.errors) {
-      return NextResponse.json(
-        {
-          message: `Can't get data from database`,
-          error: response.errors,
-        },
-        { status: 500 }
-      );
-    } else
-      return NextResponse.json(
-        {
-          message: 'Status has changed successfully',
-          data: response,
-        },
-        { status: 200 }
-      );
+    return NextResponse.json(
+      {
+        message: 'Status has changed successfully',
+        data: response,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { message: `Can't get data from database`, error },
