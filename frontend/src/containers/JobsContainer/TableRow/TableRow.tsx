@@ -38,6 +38,24 @@ export function TableRow({ job }: { job: Job }) {
     shouldFetch: isExpanded,
   });
 
+  const handleExpand = () => {
+    let hasInProgressStatus = false;
+
+    operations?.forEach((operation) => {
+      if (
+        operation.operation_status.operation_status_name === OperationStatuses.IN_PROGRESS
+      ) {
+        hasInProgressStatus = true;
+      }
+    });
+
+    if (hasInProgressStatus) {
+      alert('Please, stop all operations before collapse the table');
+    } else {
+      setIsExpanded((prev) => !prev);
+    }
+  };
+
   return (
     <>
       <S.TableRow>
@@ -58,10 +76,7 @@ export function TableRow({ job }: { job: Job }) {
           </StatusIcon>
         </TableCell>
         <TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
-          <ExpandButton
-            expand={isExpanded}
-            onClick={() => setIsExpanded((prev) => !prev)}
-          />
+          <ExpandButton expand={isExpanded} onClick={handleExpand} />
         </TableCell>
       </S.TableRow>
       <S.TableRowInner style={{ display: isExpanded ? 'table-row' : 'none' }}>
@@ -160,15 +175,7 @@ function OperationRow({
       <TableCell width={TABLE.COLUMN_WIDTH_2}>
         <S.StationWrapper>
           {operation.operation.station.station_name}
-          <StatusIcon
-            type={operation.operation.station.station_status.station_status_name}
-          >
-            {!isUpdating ? (
-              operation.operation.station.station_status.station_status_name
-            ) : (
-              <Loading size={20} />
-            )}
-          </StatusIcon>
+          {` (${operation.operation.station.station_type})`}
         </S.StationWrapper>
       </TableCell>
       <TableCell width={TABLE.COLUMN_WIDTH_3} align="center">

@@ -49,9 +49,7 @@ export type getJobsResponse = Job[];
 export interface Operation {
   operation: {
     station: {
-      station_status: {
-        station_status_name: StationStatuses;
-      };
+      station_type: string;
       station_name: string;
       id: number;
     };

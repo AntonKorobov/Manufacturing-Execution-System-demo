@@ -49,10 +49,8 @@ export const GET_JOB_OPERATIONS = ({ jobId }: { jobId: number }) => `
       ) {
         operation {
           station {
-            station_status {
-              station_status_name
-            }
             station_name
+            station_type
             id
           }
           id
