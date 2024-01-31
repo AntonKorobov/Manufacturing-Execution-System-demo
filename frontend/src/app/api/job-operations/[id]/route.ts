@@ -7,12 +7,10 @@ export async function PUT(req: NextRequest) {
   const id = Number(req.nextUrl.pathname.split('/').slice(-1)[0]);
   const body = await req.json();
 
-  //TODO
   const bodyRequest = { query: '' };
   if (body.qty !== undefined) {
     bodyRequest.query = PUT_JOB_OPERATION_QTY_OUT({ id, qty: body.qty });
-  }
-  if (body.statusCode !== undefined && body.duration !== undefined) {
+  } else if (body.statusCode !== undefined && body.duration !== undefined) {
     bodyRequest.query = PUT_JOB_OPERATION_STATUS({
       id,
       statusCode: body.statusCode,
@@ -30,9 +28,9 @@ export async function PUT(req: NextRequest) {
       body: JSON.stringify(bodyRequest),
     }).then((data) => data.json());
 
-    if (response.error) {
+    if (response.errors) {
       return NextResponse.json(
-        { message: `Can't get data from database`, error: response.error },
+        { message: `Can't get data from database`, error: response.errors },
         { status: 500 }
       );
     } else return NextResponse.json(response.data, { status: 200 });

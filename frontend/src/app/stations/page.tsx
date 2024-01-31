@@ -16,10 +16,9 @@ export default function StationsPage() {
   const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) =>
     setPage(value);
 
-  const { stations, stationsError, stationsIsLoading, stationsIsisValidating } =
-    useGetStations({
-      pageNumber: page - 1,
-    });
+  const { stations, stationsIsLoading } = useGetStations({
+    pageNumber: page - 1,
+  });
 
   return (
     <>

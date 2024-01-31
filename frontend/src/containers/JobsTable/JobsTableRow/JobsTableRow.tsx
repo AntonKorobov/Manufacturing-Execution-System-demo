@@ -17,7 +17,6 @@ export function JobsTableRow({ job }: { job: Job }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const {
     operations,
-    operationsError,
     operationsIsLoading,
     operationsIsValidating,
     revalidateOperations,

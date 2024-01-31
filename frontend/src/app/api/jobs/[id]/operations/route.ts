@@ -18,9 +18,9 @@ export async function GET(req: NextRequest) {
       }),
     }).then((data) => data.json());
 
-    if (response.error)
+    if (response.errors)
       return NextResponse.json(
-        { message: `Can't get data from database`, error: response.error },
+        { message: `Can't get data from database`, error: response.errors },
         { status: 500 }
       );
     else return NextResponse.json(response.data.job_operation, { status: 200 });

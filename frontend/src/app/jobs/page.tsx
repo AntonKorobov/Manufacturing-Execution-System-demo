@@ -16,7 +16,7 @@ export default function JobsPage() {
   const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) =>
     setPage(value);
 
-  const { jobs, jobsError, jobsIsLoading } = useGetJobs({
+  const { jobs, jobsIsLoading } = useGetJobs({
     pageNumber: 0,
   });
 

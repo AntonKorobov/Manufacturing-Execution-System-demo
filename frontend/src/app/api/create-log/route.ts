@@ -16,10 +16,8 @@ export async function POST(req: NextRequest) {
   } = body.event.data.new;
 
   let newStatusId = body.event.data.new.job_operation_status_id;
-  // const oldStatusId = body.event.data.old.job_operation_status_id;
-
   const bodyRequest = { query: '' };
-  //Pressed START button
+
   if (newStatusId === 3) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
@@ -31,7 +29,6 @@ export async function POST(req: NextRequest) {
       operationId: operation_id,
     });
   }
-  //Pressed STOP button
   if (newStatusId === 2) {
     if (job_operation_qty_out >= job_operation_qty_in) {
       newStatusId = 4;
