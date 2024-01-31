@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { Loading } from '@/components/Loading/Loading';
-import { JobsContainer } from '@/containers/JobsContainer/JobsContainer';
+import { JobsTable } from '@/containers/JobsTable/JobsTable';
 import { Pagination } from '@/components/Pagination/Pagination';
 
 import { useGetJobs } from '@/graphQL/useGetJobs';
@@ -23,7 +23,7 @@ export default function JobsPage() {
   return (
     <>
       {jobsIsLoading && <Loading size={80} />}
-      {jobs && <JobsContainer jobs={jobs} />}
+      {jobs && <JobsTable jobs={jobs} />}
       <S.PaginationWrapper>
         <Pagination count={1} page={page} onChange={handlePaginate} />
       </S.PaginationWrapper>

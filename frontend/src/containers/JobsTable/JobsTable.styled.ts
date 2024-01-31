@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { Table as TableMUI } from '@mui/material/';
 import { TableHead as TableHeadMUI } from '@mui/material/';
+import { TableBody as TableBodyMUI } from '@mui/material/';
 import { TableRow as TableRowMUI } from '@mui/material/';
 import { TableCell as TableCellMUI } from '@mui/material/';
 
@@ -33,12 +34,8 @@ export const TableHead = styled(TableHeadMUI)`
   z-index: 1000;
 `;
 
+export const TableBody = styled(TableBodyMUI)``;
+
 export const TableRow = styled(TableRowMUI)``;
 
-export const TableRowInner = styled(TableRowMUI)`
-  background-color: ${(props) => props.theme.color.grayLight};
-`;
-
-export const TableCellInner = styled(TableCellMUI)`
-  padding: 0;
-`;
+export const TableCell = styled(TableCellMUI)``;
