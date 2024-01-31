@@ -4,8 +4,8 @@ import * as S from './page.styled';
 
 export default function HomePage() {
   return (
-    <S.Main>
-      <S.H1>Home page</S.H1>
-    </S.Main>
+    <S.Container>
+      <S.H1>Manufacturing Execution System</S.H1>
+    </S.Container>
   );
 }
