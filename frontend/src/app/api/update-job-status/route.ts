@@ -2,7 +2,7 @@ export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
+import { GET_JOB_OPERATIONS_STATUSES } from '@/graphQL/queries';
 import { OperationStatuses, getJobOperationsResponse } from '@/graphQL/types';
 import { PUT_JOB_STATUS } from '@/graphQL/mutations';
 
@@ -48,7 +48,7 @@ async function getJobStations(jobId: number) {
       'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
     },
     body: JSON.stringify({
-      query: GET_JOB_OPERATIONS({ jobId: jobId }),
+      query: GET_JOB_OPERATIONS_STATUSES({ jobId: jobId }),
     }),
   }).then((data) => data.json());
 

@@ -65,3 +65,16 @@ export const GET_JOB_OPERATIONS = ({ jobId }: { jobId: number }) => `
       }
   }
 `;
+
+export const GET_JOB_OPERATIONS_STATUSES = ({ jobId }: { jobId: number }) => `
+  query {
+    job_operation(
+        where: {job_id: {_eq: ${jobId}}},
+        order_by: {operation: {sequence: asc}}
+      ) {
+        operation_status {
+          operation_status_name
+        }
+      }
+  }
+`;
