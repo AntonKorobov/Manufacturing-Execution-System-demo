@@ -1,5 +1,11 @@
 'use client';
 
+import * as S from './page.styled';
+
 export default function HomePage() {
-  return <h2>Home page</h2>;
+  return (
+    <S.Container>
+      <S.H1>Manufacturing Execution System</S.H1>
+    </S.Container>
+  );
 }
