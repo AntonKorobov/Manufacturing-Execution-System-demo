@@ -27,7 +27,7 @@ export const List = styled.ul`
 export const Item = styled.li``;
 
 export const ImageContainer = styled.div`
-  height: 70%;
+  height: 55%;
   overflow: hidden;
 `;
 
