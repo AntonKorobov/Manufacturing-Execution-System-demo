@@ -46,7 +46,7 @@ export interface Job {
   };
 }
 
-export type getJobsResponse = Job[];
+export type getJobsResponse = { jobs: Job[] };
 
 export interface Operation {
   operation: {

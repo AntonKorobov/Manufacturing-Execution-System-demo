@@ -15,13 +15,9 @@ export const GET_STATIONS_QUERY = gql`
   }
 `;
 
-export const GET_JOBS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
-  query {
-    jobs( 
-      order_by: {id: asc},
-      limit: ${limit},
-      offset: ${page * limit} 
-    ) {
+export const GET_JOBS_QUERY = gql`
+  query GetJobs_Query($limit: Int, $offset: Int) {
+    jobs(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       job_name
       job_qty

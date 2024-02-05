@@ -22,7 +22,7 @@ export default function StationsPage() {
   const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) =>
     setPage(value);
 
-  const { data, loading, error } = useQuery<getStationsResponse>(GET_STATIONS_QUERY, {
+  const { data, loading } = useQuery<getStationsResponse>(GET_STATIONS_QUERY, {
     variables: {
       limit: STATIONS_ON_PAGE,
       offset: (page - 1) * STATIONS_ON_PAGE,
