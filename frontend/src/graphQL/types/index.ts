@@ -19,7 +19,9 @@ export interface Station {
   };
 }
 
-export type getStationsResponse = Station[];
+export type getStationsResponse = {
+  stations: Station[];
+};
 
 export enum OperationStatuses {
   UNKNOWN = 'unknown',

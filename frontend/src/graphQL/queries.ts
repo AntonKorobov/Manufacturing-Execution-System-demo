@@ -1,10 +1,8 @@
-export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
-  query {
-    stations( 
-      order_by: {id: asc},
-      limit: ${limit},
-      offset: ${page * limit} 
-    ) {
+import { gql } from '@apollo/client';
+
+export const GET_STATIONS_QUERY = gql`
+  query GetStationsQuery($limit: Int, $offset: Int) {
+    stations(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       station_img
       station_name

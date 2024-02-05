@@ -1,10 +1,10 @@
 import { StationCard } from '@/components/StationCard/StationCard';
 
-import { getStationsResponse } from '@/graphQL/types';
+import { Station } from '@/graphQL/types';
 
 import * as S from './StationsContainer.styled';
 
-export function StationsContainer({ stations }: { stations: getStationsResponse }) {
+export function StationsContainer({ stations }: { stations: Station[] }) {
   return (
     <S.Container>
       {stations.map((station) => {
