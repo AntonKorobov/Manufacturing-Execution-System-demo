@@ -12,7 +12,7 @@ const SButtonSubmit = styled(Button)`
   background-color: ${(props) => props.theme.color.mainBlue};
 `;
 
-interface IButtonSubmit {
+interface ButtonSubmitProps {
   children: ReactNode;
   disabled?: boolean;
   fullWidth?: boolean;
@@ -22,15 +22,15 @@ interface IButtonSubmit {
 export const ButtonSubmit = ({
   children,
   disabled = false,
-  onClick,
+  onClick: handleClick,
   fullWidth = false,
-}: IButtonSubmit) => {
+}: ButtonSubmitProps) => {
   return (
     <SButtonSubmit
       variant="contained"
       size="medium"
       disabled={disabled}
-      onClick={onClick}
+      onClick={handleClick}
       fullWidth={fullWidth}
     >
       {children}

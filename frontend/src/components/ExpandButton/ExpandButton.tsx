@@ -13,15 +13,17 @@ const Button = styled.button`
   }
 `;
 
-export function ExpandButton({
-  expand = false,
-  onClick,
-}: {
+interface ExpandButtonProps {
   expand: boolean;
   onClick: VoidFunction;
-}) {
+}
+
+export function ExpandButton({
+  expand = false,
+  onClick: handleClick,
+}: ExpandButtonProps) {
   return (
-    <Button onClick={onClick}>
+    <Button onClick={handleClick}>
       <Image
         width={20}
         height={20}

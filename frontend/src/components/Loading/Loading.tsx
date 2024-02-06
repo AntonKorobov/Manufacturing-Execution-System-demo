@@ -1,6 +1,11 @@
 import * as S from './Loading.styled';
 
-export const Loading = ({ size, height }: { size: number; height?: number }) => {
+interface LoadingProps {
+  size: number;
+  height?: number;
+}
+
+export const Loading = ({ size, height }: LoadingProps) => {
   return (
     <S.Wrapper style={{ height: height + 'px' || 'auto' }}>
       <S.Loading size={size} />

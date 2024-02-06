@@ -25,15 +25,17 @@ import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
 
 import * as S from './JobOperationsTableRow.styled';
 
+interface JobOperationsTableRowProps {
+  operation: Operation;
+  isJobValidating: boolean;
+  jobQty: number;
+}
+
 export function JobOperationsTableRow({
   operation,
-  isValidating,
+  isJobValidating,
   jobQty,
-}: {
-  operation: Operation;
-  isValidating: boolean;
-  jobQty: number;
-}) {
+}: JobOperationsTableRowProps) {
   const [mutateStationStatus, { loading: loadingStationStatus }] = useMutation(
     PUT_STATION_STATUS,
     {
@@ -93,7 +95,7 @@ export function JobOperationsTableRow({
   );
   const [isUpdating] = useIsUpdating({
     isMutating: mutationStatuses,
-    isValidating: isValidating,
+    isValidating: isJobValidating,
   });
 
   return (

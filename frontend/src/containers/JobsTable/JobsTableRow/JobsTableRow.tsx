@@ -15,7 +15,11 @@ import * as TABLE from '../constants';
 
 import * as S from './JobsTableRow.styled';
 
-export function JobsTableRow({ job }: { job: Job }) {
+interface JobsTableRowProps {
+  job: Job;
+}
+
+export function JobsTableRow({ job }: JobsTableRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { data: operations, networkStatus } = useQuery<getJobOperationsResponse>(
@@ -81,7 +85,7 @@ export function JobsTableRow({ job }: { job: Job }) {
                   <JobOperationsTableRow
                     key={operation.operation.id}
                     operation={operation}
-                    isValidating={networkStatus === NetworkStatus.refetch}
+                    isJobValidating={networkStatus === NetworkStatus.refetch}
                     jobQty={job.job_qty}
                   />
                 ))}
