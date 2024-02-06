@@ -66,4 +66,4 @@ export interface Operation {
   };
 }
 
-export type getJobOperationsResponse = Operation[];
+export type getJobOperationsResponse = { job_operation: Operation[] };

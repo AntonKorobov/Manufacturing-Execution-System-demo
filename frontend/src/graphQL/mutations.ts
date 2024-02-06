@@ -1,21 +1,23 @@
-export const PUT_STATION_STATUS = ({
-  id,
-  statusCode,
-}: {
-  id: number;
-  statusCode: number;
-}) => `
-  mutation {
-    update_stations_by_pk(pk_columns: {id: ${id}}, _set: {station_status_id: ${statusCode}}) {
+import { gql } from '@apollo/client';
+
+export const PUT_STATION_STATUS = gql`
+  mutation PutStationStatus($id: Int!, $statusCode: Int!) {
+    update_stations_by_pk(
+      pk_columns: { id: $id }
+      _set: { station_status_id: $statusCode }
+    ) {
       id
       station_status_id
     }
   }
 `;
 
-export const PUT_JOB_OPERATION_QTY_OUT = ({ id, qty }: { id: number; qty: number }) => `
-  mutation {
-    update_job_operation(where: {operation_id: {_eq: ${id}}}, _set: {job_operation_qty_out: ${qty}}) {
+export const PUT_JOB_OPERATION_QTY_OUT = gql`
+  mutation PutJobOperationQtyOut($id: Int!, $qty: Int!) {
+    update_job_operation(
+      where: { operation_id: { _eq: $id } }
+      _set: { job_operation_qty_out: $qty }
+    ) {
       returning {
         id
         job_operation_qty_out
@@ -24,17 +26,12 @@ export const PUT_JOB_OPERATION_QTY_OUT = ({ id, qty }: { id: number; qty: number
   }
 `;
 
-export const PUT_JOB_OPERATION_STATUS = ({
-  id,
-  statusCode,
-  duration,
-}: {
-  id: number;
-  statusCode: number;
-  duration: number;
-}) => `
-  mutation {
-    update_job_operation(where: {operation_id: {_eq: ${id}}}, _set: {job_operation_status_id: ${statusCode}, job_operation_duration: ${duration}}) {
+export const PUT_JOB_OPERATION_STATUS = gql`
+  mutation PutJobOperationStatus($id: Int!, $statusCode: Int!, $duration: Int) {
+    update_job_operation(
+      where: { operation_id: { _eq: $id } }
+      _set: { job_operation_status_id: $statusCode, job_operation_duration: $duration }
+    ) {
       returning {
         job_operation_status_id
         operation_id

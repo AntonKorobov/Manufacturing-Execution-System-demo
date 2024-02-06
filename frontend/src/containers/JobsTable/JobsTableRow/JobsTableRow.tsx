@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
+import { NetworkStatus, useQuery } from '@apollo/client';
+
 import { Loading } from '@/components/Loading/Loading';
 import { ExpandButton } from '@/components/ExpandButton/ExpandButton';
 import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
 import { JobOperationsTableRow } from '../JobOperationsTableRow/JobOperationsTableRow';
 
-import { useGetJobOperations } from '@/graphQL/useGetJobOperations';
+import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
 
-import { Job, OperationStatuses } from '@/graphQL/types';
+import { Job, OperationStatuses, getJobOperationsResponse } from '@/graphQL/types';
 
 import * as TABLE from '../constants';
 
@@ -15,20 +17,23 @@ import * as S from './JobsTableRow.styled';
 
 export function JobsTableRow({ job }: { job: Job }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const {
-    operations,
-    operationsIsLoading,
-    operationsIsValidating,
-    revalidateOperations,
-  } = useGetJobOperations({
-    jobId: job.id,
-    shouldFetch: isExpanded,
-  });
+
+  const { data: operations, networkStatus } = useQuery<getJobOperationsResponse>(
+    GET_JOB_OPERATIONS,
+    {
+      variables: {
+        id: job.id,
+      },
+      pollInterval: 1000,
+      skip: !isExpanded,
+      notifyOnNetworkStatusChange: true,
+    }
+  );
 
   const handleExpand = () => {
     let hasInProgressStatus = false;
 
-    operations?.forEach((operation) => {
+    operations?.job_operation.forEach((operation) => {
       if (
         operation.operation_status.operation_status_name === OperationStatuses.IN_PROGRESS
       ) {
@@ -68,16 +73,15 @@ export function JobsTableRow({ job }: { job: Job }) {
       </S.JobTableRow>
       <S.JobTableRowInner style={{ display: isExpanded ? 'table-row' : 'none' }}>
         <S.TableCellInner colSpan={TABLE.COLUMNS_NUMBER} className="innerCell">
-          {operationsIsLoading && <Loading size={60} height={100} />}
+          {networkStatus === NetworkStatus.loading && <Loading size={60} height={100} />}
           {operations && (
             <S.Table>
               <S.TableBody>
-                {operations.map((operation) => (
+                {operations.job_operation.map((operation) => (
                   <JobOperationsTableRow
                     key={operation.operation.id}
                     operation={operation}
-                    isValidating={operationsIsValidating}
-                    revalidateOperations={revalidateOperations}
+                    isValidating={networkStatus === NetworkStatus.refetch}
                     jobQty={job.job_qty}
                   />
                 ))}

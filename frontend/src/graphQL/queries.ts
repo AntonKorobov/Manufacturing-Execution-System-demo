@@ -35,28 +35,28 @@ export const GET_JOBS_QUERY = gql`
   }
 `;
 
-export const GET_JOB_OPERATIONS = ({ jobId }: { jobId: number }) => `
-  query {
+export const GET_JOB_OPERATIONS = gql`
+  query GetJobOperations($id: Int) {
     job_operation(
-        where: {job_id: {_eq: ${jobId}}},
-        order_by: {operation: {sequence: asc}}
-      ) {
-        operation {
-          station {
-            station_name
-            station_type
-            id
-          }
+      where: { job_id: { _eq: $id } }
+      order_by: { operation: { sequence: asc } }
+    ) {
+      operation {
+        station {
+          station_name
+          station_type
           id
-          sequence
-          operation_expected_time
         }
-        job_operation_duration
-        job_operation_qty_out
-        operation_status {
-          operation_status_name
-        }
+        id
+        sequence
+        operation_expected_time
       }
+      job_operation_duration
+      job_operation_qty_out
+      operation_status {
+        operation_status_name
+      }
+    }
   }
 `;
 
