@@ -1,12 +1,16 @@
 import { JobsTableRow } from './JobsTableRow/JobsTableRow';
 
-import { getJobsResponse } from '@/graphQL/types';
+import { Job } from '@/graphQL/types';
 
 import * as TABLE from './constants';
 
 import * as S from './JobsTable.styled';
 
-export function JobsTable({ jobs }: { jobs: getJobsResponse }) {
+interface JobsTableProps {
+  jobs: Job[];
+}
+
+export function JobsTable({ jobs }: JobsTableProps) {
   return (
     <S.TableContainer>
       <S.Table aria-label="simple table">

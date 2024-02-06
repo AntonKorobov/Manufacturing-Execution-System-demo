@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export const useTimer = ({ initialSeconds = 0, initiallyRunning = false } = {}) => {
+interface useTimerProps {
+  initialSeconds: number;
+  initiallyRunning: boolean;
+}
+
+export const useTimer = ({
+  initialSeconds = 0,
+  initiallyRunning = false,
+}: useTimerProps) => {
   const [seconds, setSeconds] = useState(initialSeconds);
   const [running, setRunning] = useState(initiallyRunning);
 

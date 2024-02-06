@@ -19,7 +19,9 @@ export interface Station {
   };
 }
 
-export type getStationsResponse = Station[];
+export type getStationsResponse = {
+  stations: Station[];
+};
 
 export enum OperationStatuses {
   UNKNOWN = 'unknown',
@@ -44,7 +46,7 @@ export interface Job {
   };
 }
 
-export type getJobsResponse = Job[];
+export type getJobsResponse = { jobs: Job[] };
 
 export interface Operation {
   operation: {
@@ -64,4 +66,4 @@ export interface Operation {
   };
 }
 
-export type getJobOperationsResponse = Operation[];
+export type getJobOperationsResponse = { job_operation: Operation[] };

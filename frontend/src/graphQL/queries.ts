@@ -1,10 +1,8 @@
-export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
-  query {
-    stations( 
-      order_by: {id: asc},
-      limit: ${limit},
-      offset: ${page * limit} 
-    ) {
+import { gql } from '@apollo/client';
+
+export const GET_STATIONS_QUERY = gql`
+  query GetStationsQuery($limit: Int, $offset: Int) {
+    stations(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       station_img
       station_name
@@ -17,13 +15,9 @@ export const GET_STATIONS_QUERY = ({ page, limit }: { page: number; limit: numbe
   }
 `;
 
-export const GET_JOBS_QUERY = ({ page, limit }: { page: number; limit: number }) => `
-  query {
-    jobs( 
-      order_by: {id: asc},
-      limit: ${limit},
-      offset: ${page * limit} 
-    ) {
+export const GET_JOBS_QUERY = gql`
+  query GetJobs_Query($limit: Int, $offset: Int) {
+    jobs(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       job_name
       job_qty
@@ -41,28 +35,28 @@ export const GET_JOBS_QUERY = ({ page, limit }: { page: number; limit: number })
   }
 `;
 
-export const GET_JOB_OPERATIONS = ({ jobId }: { jobId: number }) => `
-  query {
+export const GET_JOB_OPERATIONS = gql`
+  query GetJobOperations($id: Int) {
     job_operation(
-        where: {job_id: {_eq: ${jobId}}},
-        order_by: {operation: {sequence: asc}}
-      ) {
-        operation {
-          station {
-            station_name
-            station_type
-            id
-          }
+      where: { job_id: { _eq: $id } }
+      order_by: { operation: { sequence: asc } }
+    ) {
+      operation {
+        station {
+          station_name
+          station_type
           id
-          sequence
-          operation_expected_time
         }
-        job_operation_duration
-        job_operation_qty_out
-        operation_status {
-          operation_status_name
-        }
+        id
+        sequence
+        operation_expected_time
       }
+      job_operation_duration
+      job_operation_qty_out
+      operation_status {
+        operation_status_name
+      }
+    }
   }
 `;
 

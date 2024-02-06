@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+
+import { useMemo, useState } from 'react';
 
 import { ActionButton } from '@/components/ActionButton/ActionButton';
 import { CounterInput } from '@/components/CounterInput/CounterInput';
 import { Loading } from '@/components/Loading/Loading';
 import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
 
-import { usePostJobOperationStatus } from '@/graphQL/usePostJobOperationStatus';
-import { usePostStationStatus } from '@/graphQL/usePostStationStatus';
-import { usePostJobOperationQty } from '@/graphQL/usePostJobOperationQty';
 import { useIsUpdating } from '@/hooks/useIsUpdating';
 import { useTimer } from '@/hooks/useTimer';
 
@@ -17,32 +16,54 @@ import { ActionButtonTypes } from '@/components/types';
 import { Operation, OperationStatuses } from '@/graphQL/types';
 
 import * as TABLE from '../constants';
+import {
+  PUT_JOB_OPERATION_QTY_OUT,
+  PUT_JOB_OPERATION_STATUS,
+  PUT_STATION_STATUS,
+} from '@/graphQL/mutations';
+import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
 
 import * as S from './JobOperationsTableRow.styled';
 
+interface JobOperationsTableRowProps {
+  operation: Operation;
+  isJobValidating: boolean;
+  jobQty: number;
+}
+
 export function JobOperationsTableRow({
   operation,
-  isValidating,
-  revalidateOperations,
+  isJobValidating,
   jobQty,
-}: {
-  operation: Operation;
-  isValidating: boolean;
-  revalidateOperations: VoidFunction;
-  jobQty: number;
-}) {
-  const { isStationStatusChanging, changeStationStatus } = usePostStationStatus({
-    id: operation.operation.station.id,
-  });
+}: JobOperationsTableRowProps) {
+  const [mutateStationStatus, { loading: loadingStationStatus }] = useMutation(
+    PUT_STATION_STATUS,
+    {
+      variables: {
+        id: operation.operation.station.id,
+      },
+    }
+  );
 
-  const { isJobOperationQtyChanging, changeJobOperationQty } = usePostJobOperationQty({
-    id: operation.operation.id,
-  });
+  const [mutateJobOperationQty, { loading: loadingJobOperationQty }] = useMutation(
+    PUT_JOB_OPERATION_QTY_OUT,
+    {
+      variables: {
+        id: operation.operation.id,
+      },
+      refetchQueries: [GET_JOB_OPERATIONS],
+    }
+  );
 
-  const { isJobOperationStatusChanging, changeJobOperationStatus } =
-    usePostJobOperationStatus({
-      id: operation.operation.id,
-    });
+  const [mutateJobOperationStatus, { loading: loadingJobOperationStatus }] = useMutation(
+    PUT_JOB_OPERATION_STATUS,
+    {
+      variables: {
+        id: operation.operation.id,
+      },
+      refetchQueries: [GET_JOB_OPERATIONS],
+    }
+  );
 
   const {
     hrs: expected_hrs,
@@ -68,14 +89,13 @@ export function JobOperationsTableRow({
 
   const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
 
+  const mutationStatuses = useMemo(
+    () => [loadingStationStatus, loadingJobOperationQty, loadingJobOperationStatus],
+    [loadingStationStatus, loadingJobOperationQty, loadingJobOperationStatus]
+  );
   const [isUpdating] = useIsUpdating({
-    isMutating: [
-      isStationStatusChanging,
-      isJobOperationQtyChanging,
-      isJobOperationStatusChanging,
-    ],
-    isValidating: isValidating,
-    forceRevalidation: [revalidateOperations],
+    isMutating: mutationStatuses,
+    isValidating: isJobValidating,
   });
 
   return (
@@ -119,8 +139,10 @@ export function JobOperationsTableRow({
               type={ActionButtonTypes.START}
               onClick={() => {
                 startTimer();
-                changeStationStatus({ statusCode: 2 });
-                changeJobOperationStatus({ statusCode: 3, duration: timerSeconds });
+                mutateStationStatus({ variables: { statusCode: 2 } });
+                mutateJobOperationStatus({
+                  variables: { statusCode: 3, duration: timerSeconds },
+                });
               }}
             >
               Start
@@ -133,15 +155,13 @@ export function JobOperationsTableRow({
                 type={ActionButtonTypes.STOP}
                 onClick={() => {
                   pauseTimer();
-                  changeStationStatus({ statusCode: 5 });
+                  mutateStationStatus({ variables: { statusCode: 5 } });
                   currentQty >= jobQty
-                    ? changeJobOperationStatus({
-                        statusCode: 4,
-                        duration: timerSeconds,
+                    ? mutateJobOperationStatus({
+                        variables: { statusCode: 4, duration: timerSeconds },
                       })
-                    : changeJobOperationStatus({
-                        statusCode: 2,
-                        duration: timerSeconds,
+                    : mutateJobOperationStatus({
+                        variables: { statusCode: 2, duration: timerSeconds },
                       });
                 }}
               >
@@ -152,7 +172,11 @@ export function JobOperationsTableRow({
                 onChange={(value) => {
                   resetTimer();
                   setCurrentQty(value);
-                  changeJobOperationQty({ qty: value });
+                  mutateJobOperationQty({
+                    variables: {
+                      qty: value,
+                    },
+                  });
                 }}
               />
             </>

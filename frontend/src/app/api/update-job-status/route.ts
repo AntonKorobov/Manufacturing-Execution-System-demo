@@ -3,7 +3,7 @@ export const revalidate = 0;
 import { NextRequest, NextResponse } from 'next/server';
 
 import { GET_JOB_OPERATIONS_STATUSES } from '@/graphQL/queries';
-import { OperationStatuses, getJobOperationsResponse } from '@/graphQL/types';
+import { Operation, OperationStatuses } from '@/graphQL/types';
 import { PUT_JOB_STATUS } from '@/graphQL/mutations';
 
 export async function PUT(req: NextRequest) {
@@ -76,7 +76,7 @@ async function postJobStatus({
   return response;
 }
 
-function calculateStatusCode(operations: getJobOperationsResponse) {
+function calculateStatusCode(operations: Operation[]) {
   const stats: { [key in OperationStatuses]?: number } = {};
 
   const statuses = operations.reduce((prev, curr) => {

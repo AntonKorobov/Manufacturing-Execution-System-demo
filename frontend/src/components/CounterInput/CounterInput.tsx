@@ -1,12 +1,11 @@
 import * as S from './CounterInput.styled';
 
-export function CounterInput({
-  onChange,
-  value,
-}: {
+interface CounterInputProps {
   onChange: (value: number) => void;
   value: number;
-}) {
+}
+
+export function CounterInput({ onChange, value }: CounterInputProps) {
   const handleClickMinus = () => {
     if (value !== 0) {
       const newValue = value - 1;

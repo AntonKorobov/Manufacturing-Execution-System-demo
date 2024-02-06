@@ -8,7 +8,7 @@ import { Loading } from '@/components/Loading/Loading';
 
 import * as S from './MainLayout.styled';
 
-export function MainLayout({ children }: { children: React.ReactNode }) {
+export function MainLayout({ children }: React.PropsWithChildren) {
   return (
     <S.LayoutWrapper>
       <Navigation />
