@@ -9,7 +9,7 @@ import { JobOperationsTableRow } from '../JobOperationsTableRow/JobOperationsTab
 
 import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
 
-import { Job, OperationStatuses, getJobOperationsResponse } from '@/graphQL/types';
+import { Job, OperationStatuses } from '@/graphQL/types';
 
 import * as TABLE from '../constants';
 
@@ -22,17 +22,14 @@ interface JobsTableRowProps {
 export function JobsTableRow({ job }: JobsTableRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { data: operations, networkStatus } = useQuery<getJobOperationsResponse>(
-    GET_JOB_OPERATIONS,
-    {
-      variables: {
-        id: job.id,
-      },
-      pollInterval: 1000,
-      skip: !isExpanded,
-      notifyOnNetworkStatusChange: true,
-    }
-  );
+  const { data: operations, networkStatus } = useQuery(GET_JOB_OPERATIONS, {
+    variables: {
+      id: job.id,
+    },
+    pollInterval: 1000,
+    skip: !isExpanded,
+    notifyOnNetworkStatusChange: true,
+  });
 
   const handleExpand = () => {
     let hasInProgressStatus = false;

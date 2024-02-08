@@ -1,7 +1,12 @@
-import { gql } from '@apollo/client';
+import { gql, TypedDocumentNode } from '@apollo/client';
 
-export const GET_STATIONS_QUERY = gql`
-  query GetStationsQuery($limit: Int, $offset: Int) {
+import { getJobOperationsResponse, getJobsResponse, getStationsResponse } from './types';
+
+export const GET_STATIONS_QUERY: TypedDocumentNode<
+  getStationsResponse,
+  { limit: number; offset: number }
+> = gql`
+  query GetStationsQuery($limit: Int!, $offset: Int!) {
     stations(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       station_img
@@ -15,8 +20,11 @@ export const GET_STATIONS_QUERY = gql`
   }
 `;
 
-export const GET_JOBS_QUERY = gql`
-  query GetJobs_Query($limit: Int, $offset: Int) {
+export const GET_JOBS_QUERY: TypedDocumentNode<
+  getJobsResponse,
+  { limit: number; offset: number }
+> = gql`
+  query GetJobs_Query($limit: Int!, $offset: Int!) {
     jobs(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       job_name
@@ -35,8 +43,11 @@ export const GET_JOBS_QUERY = gql`
   }
 `;
 
-export const GET_JOB_OPERATIONS = gql`
-  query GetJobOperations($id: Int) {
+export const GET_JOB_OPERATIONS: TypedDocumentNode<
+  getJobOperationsResponse,
+  { id: number }
+> = gql`
+  query GetJobOperations($id: Int!) {
     job_operation(
       where: { job_id: { _eq: $id } }
       order_by: { operation: { sequence: asc } }

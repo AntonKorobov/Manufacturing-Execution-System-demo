@@ -27,7 +27,7 @@ export const PUT_JOB_OPERATION_QTY_OUT = gql`
 `;
 
 export const PUT_JOB_OPERATION_STATUS = gql`
-  mutation PutJobOperationStatus($id: Int!, $statusCode: Int!, $duration: Int) {
+  mutation PutJobOperationStatus($id: Int!, $statusCode: Int!, $duration: Int!) {
     update_job_operation(
       where: { operation_id: { _eq: $id } }
       _set: { job_operation_status_id: $statusCode, job_operation_duration: $duration }

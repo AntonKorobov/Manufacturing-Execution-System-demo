@@ -10,8 +10,6 @@ import { Pagination } from '@/components/Pagination/Pagination';
 
 import { GET_STATIONS_QUERY } from '@/graphQL/queries';
 
-import { getStationsResponse } from '@/graphQL/types';
-
 import * as S from './page.styled';
 
 const STATIONS_ON_PAGE = 8;
@@ -22,7 +20,7 @@ export default function StationsPage() {
   const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) =>
     setPage(value);
 
-  const { data, loading } = useQuery<getStationsResponse>(GET_STATIONS_QUERY, {
+  const { data, loading } = useQuery(GET_STATIONS_QUERY, {
     variables: {
       limit: STATIONS_ON_PAGE,
       offset: (page - 1) * STATIONS_ON_PAGE,

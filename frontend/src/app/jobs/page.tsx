@@ -10,8 +10,6 @@ import { Pagination } from '@/components/Pagination/Pagination';
 
 import { GET_JOBS_QUERY } from '@/graphQL/queries';
 
-import { getJobsResponse } from '@/graphQL/types';
-
 import * as S from './page.styled';
 
 const JOBS_ON_PAGE = 10;
@@ -22,7 +20,7 @@ export default function JobsPage() {
   const handlePaginate = (event: React.ChangeEvent<unknown>, value: number) =>
     setPage(value);
 
-  const { data, loading } = useQuery<getJobsResponse>(GET_JOBS_QUERY, {
+  const { data, loading } = useQuery(GET_JOBS_QUERY, {
     variables: {
       limit: JOBS_ON_PAGE,
       offset: (page - 1) * JOBS_ON_PAGE,
