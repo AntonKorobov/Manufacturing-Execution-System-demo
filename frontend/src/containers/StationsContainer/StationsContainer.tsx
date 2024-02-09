@@ -15,11 +15,11 @@ export function StationsContainer({ stations }: StationsContainerProps) {
         return (
           <StationCard
             key={station.id}
-            stationImgUrl={station.station_img}
-            stationName={station.station_name}
-            stationCode={station.station_code}
-            stationStatusId={station.station_status.id}
-            stationType={station.station_type}
+            stationImgUrl={station.img}
+            stationName={station.name}
+            stationCode={station.code}
+            stationStatusId={station.status}
+            stationType={station.type}
             url={`/stations/${station.id}/jobs`}
           />
         );

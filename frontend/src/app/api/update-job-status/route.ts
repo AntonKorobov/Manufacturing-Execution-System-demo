@@ -80,7 +80,7 @@ function calculateStatusCode(operations: JobOperation[]) {
   const stats: { [key in OperationStatusId]?: number } = {};
 
   const statuses = operations.reduce((prev, curr) => {
-    prev[curr.operation_status.id] = 1;
+    prev[curr.status] = 1;
     return prev;
   }, stats);
 

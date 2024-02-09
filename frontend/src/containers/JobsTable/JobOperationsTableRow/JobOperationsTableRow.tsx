@@ -41,7 +41,7 @@ export function JobOperationsTableRow({
   isJobValidating,
   jobQty,
 }: JobOperationsTableRowProps) {
-  const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
+  const [currentQty, setCurrentQty] = useState(operation.qty_out);
 
   const [mutateStationStatus, { loading: loadingStationStatus }] = useMutation(
     PUT_STATION_STATUS,
@@ -78,7 +78,7 @@ export function JobOperationsTableRow({
     pause: pauseTimer,
     reset: resetTimer,
   } = useTimer({
-    initialSeconds: operation.job_operation_duration,
+    initialSeconds: operation.duration,
     initiallyRunning: false,
   });
 
@@ -86,7 +86,7 @@ export function JobOperationsTableRow({
     hrs: expected_hrs,
     min: expected_min,
     sec: expected_sec,
-  } = convertSecondsToTime(operation.operation.operation_expected_time);
+  } = convertSecondsToTime(operation.operation.expected_time);
 
   const {
     hrs: processed_hrs,
@@ -145,8 +145,8 @@ export function JobOperationsTableRow({
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_2}>
         <S.StationWrapper>
-          {operation.operation.station.station_name}
-          {` (${operation.operation.station.station_type})`}
+          {operation.operation.station.name}
+          {` (${operation.operation.station.type})`}
         </S.StationWrapper>
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_3} align="center">
@@ -156,29 +156,21 @@ export function JobOperationsTableRow({
         {`${processed_hrs}:${processed_min}:${processed_sec}`}
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_5} align="center">
-        {!isUpdating ? (
-          `${operation.job_operation_qty_out}/${jobQty}`
-        ) : (
-          <Loading size={20} />
-        )}
+        {!isUpdating ? `${operation.qty_out}/${jobQty}` : <Loading size={20} />}
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-        <OperationStatusIcon type={operation.operation_status.id}>
-          {!isUpdating ? (
-            OperationStatusName[operation.operation_status.id]
-          ) : (
-            <Loading size={20} />
-          )}
+        <OperationStatusIcon type={operation.status}>
+          {!isUpdating ? OperationStatusName[operation.status] : <Loading size={20} />}
         </OperationStatusIcon>
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
         <S.ButtonsWrapper>
-          {operation.operation_status.id === OperationStatusId.QUEUED && (
+          {operation.status === OperationStatusId.QUEUED && (
             <ActionButton type={ActionButtonTypes.START} onClick={handleClickStartButton}>
               Start
             </ActionButton>
           )}
-          {operation.operation_status.id === OperationStatusId.IN_PROGRESS && (
+          {operation.status === OperationStatusId.IN_PROGRESS && (
             <>
               <ActionButton type={ActionButtonTypes.STOP} onClick={handleClickStopButton}>
                 Stop

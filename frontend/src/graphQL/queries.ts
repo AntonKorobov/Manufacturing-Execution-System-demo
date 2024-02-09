@@ -9,13 +9,11 @@ export const GET_STATIONS_QUERY: TypedDocumentNode<
   query GetStationsQuery($limit: Int!, $offset: Int!) {
     stations(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
-      station_img
-      station_name
-      station_type
-      station_code
-      station_status {
-        id
-      }
+      img
+      name
+      type
+      code
+      status
     }
   }
 `;
@@ -27,17 +25,15 @@ export const GET_JOBS_QUERY: TypedDocumentNode<
   query GetJobsQuery($limit: Int!, $offset: Int!) {
     jobs(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
-      job_name
-      job_qty
-      job_status {
-        id
-      }
+      name
+      qty
+      status
       part {
-        part_img
-        part_name
+        img
+        name
       }
       order {
-        order_name
+        name
       }
     }
   }
@@ -54,19 +50,17 @@ export const GET_JOB_OPERATIONS_QUERY: TypedDocumentNode<
     ) {
       operation {
         station {
-          station_name
-          station_type
+          name
+          type
           id
         }
         id
         sequence
-        operation_expected_time
+        expected_time
       }
-      job_operation_duration
-      job_operation_qty_out
-      operation_status {
-        id
-      }
+      duration
+      qty_out
+      status
     }
   }
 `;
@@ -77,9 +71,7 @@ export const GET_JOB_OPERATIONS_STATUSES_QUERY = ({ jobId }: { jobId: number }) 
         where: {job_id: {_eq: ${jobId}}},
         order_by: {operation: {sequence: asc}}
       ) {
-        operation_status {
-          id
-        }
+        status
       }
   }
 `;

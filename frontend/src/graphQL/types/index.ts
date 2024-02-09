@@ -20,13 +20,11 @@ export const StationStatusName = {
 
 export interface Station {
   id: number;
-  station_code: string;
-  station_img: string;
-  station_name: string;
-  station_type: string;
-  station_status: {
-    id: StationStatusId;
-  };
+  code: string;
+  img: string;
+  name: string;
+  type: string;
+  status: StationStatusId;
 }
 
 export type getStationsResponse = {
@@ -63,17 +61,15 @@ export const JobStatusName = {
 
 export interface Job {
   id: number;
-  job_name: string;
-  job_qty: number;
-  job_status: {
-    id: JobStatusId;
-  };
+  name: string;
+  qty: number;
+  status: JobStatusId;
   part: {
-    part_img: string;
-    part_name: string;
+    img: string;
+    name: string;
   };
   order: {
-    order_name: string;
+    name: string;
   };
 }
 
@@ -82,19 +78,17 @@ export type getJobsResponse = { jobs: Job[] };
 export interface JobOperation {
   operation: {
     station: {
-      station_type: string;
-      station_name: string;
+      type: string;
+      name: string;
       id: number;
     };
-    operation_expected_time: number;
+    expected_time: number;
     sequence: number;
     id: number;
   };
-  job_operation_duration: number;
-  job_operation_qty_out: number;
-  operation_status: {
-    id: OperationStatusId;
-  };
+  duration: number;
+  qty_out: number;
+  status: OperationStatusId;
 }
 
 export type getJobOperationsResponse = { job_operation: JobOperation[] };

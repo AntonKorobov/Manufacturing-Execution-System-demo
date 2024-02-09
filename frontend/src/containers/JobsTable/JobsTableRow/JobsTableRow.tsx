@@ -35,7 +35,7 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
     let hasInProgressStatus = false;
 
     operations?.job_operation.forEach((operation) => {
-      if (operation.operation_status.id === OperationStatusId.IN_PROGRESS) {
+      if (operation.status === OperationStatusId.IN_PROGRESS) {
         hasInProgressStatus = true;
       }
     });
@@ -50,8 +50,8 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
   return (
     <>
       <S.JobTableRow>
-        <S.TableCell width={TABLE.COLUMN_WIDTH_1}>{job.order.order_name}</S.TableCell>
-        <S.TableCell width={TABLE.COLUMN_WIDTH_2}>{job.job_name}</S.TableCell>
+        <S.TableCell width={TABLE.COLUMN_WIDTH_1}>{job.order.name}</S.TableCell>
+        <S.TableCell width={TABLE.COLUMN_WIDTH_2}>{job.name}</S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_3} align="center">
           Sum
         </S.TableCell>
@@ -59,12 +59,10 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
           Sum
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_5} align="center">
-          {job.job_qty}
+          {job.qty}
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-          <JobStatusIcon type={job.job_status.id}>
-            {JobStatusName[job.job_status.id]}
-          </JobStatusIcon>
+          <JobStatusIcon type={job.status}>{JobStatusName[job.status]}</JobStatusIcon>
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
           <ExpandButton expand={isExpanded} onClick={handleExpand} />
@@ -81,7 +79,7 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
                     key={operation.operation.id}
                     operation={operation}
                     isJobValidating={networkStatus === NetworkStatus.refetch}
-                    jobQty={job.job_qty}
+                    jobQty={job.qty}
                   />
                 ))}
               </S.TableBody>
