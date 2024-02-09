@@ -7,15 +7,11 @@ interface CounterInputProps {
 
 export function CounterInput({ onChange, value }: CounterInputProps) {
   const handleClickMinus = () => {
-    if (value !== 0) {
-      const newValue = value - 1;
-      onChange(newValue);
-    }
+    onChange(value - 1);
   };
 
   const handleClickPlus = () => {
-    const newValue = value + 1;
-    onChange(newValue);
+    onChange(value + 1);
   };
 
   return (

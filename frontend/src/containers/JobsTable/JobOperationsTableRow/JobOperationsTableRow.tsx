@@ -98,6 +98,19 @@ export function JobOperationsTableRow({
     isValidating: isJobValidating,
   });
 
+  const handleChangeCounterInput = (value: number) => {
+    resetTimer();
+
+    if (value >= 0 && value <= jobQty) {
+      setCurrentQty(value);
+      mutateJobOperationQty({
+        variables: {
+          qty: value,
+        },
+      });
+    }
+  };
+
   return (
     <S.TableRow key={operation.operation.id}>
       <S.TableCell width={TABLE.COLUMN_WIDTH_1} align="right">
@@ -167,18 +180,7 @@ export function JobOperationsTableRow({
               >
                 Stop
               </ActionButton>
-              <CounterInput
-                value={currentQty}
-                onChange={(value) => {
-                  resetTimer();
-                  setCurrentQty(value);
-                  mutateJobOperationQty({
-                    variables: {
-                      qty: value,
-                    },
-                  });
-                }}
-              />
+              <CounterInput value={currentQty} onChange={handleChangeCounterInput} />
             </>
           )}
         </S.ButtonsWrapper>
