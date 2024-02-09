@@ -1,4 +1,4 @@
-export enum StationStatuses {
+export enum StationStatusName {
   UNKNOWN = 'unknown',
   WORKING = 'working',
   PREPARING = 'preparing',
@@ -15,7 +15,7 @@ export interface Station {
   station_name: string;
   station_type: string;
   station_status: {
-    station_status_name: StationStatuses;
+    station_status_name: StationStatusName;
   };
 }
 
@@ -23,19 +23,40 @@ export type getStationsResponse = {
   stations: Station[];
 };
 
-export enum OperationStatuses {
-  UNKNOWN = 'unknown',
-  QUEUED = 'queued',
-  IN_PROGRESS = 'in progress',
-  FINISHED = 'finished',
+export enum OperationStatusId {
+  UNKNOWN = 1,
+  QUEUED,
+  IN_PROGRESS,
+  FINISHED,
 }
+
+export const OperationStatusName = {
+  [OperationStatusId.UNKNOWN]: 'unknown',
+  [OperationStatusId.QUEUED]: 'queued',
+  [OperationStatusId.IN_PROGRESS]: 'in progress',
+  [OperationStatusId.FINISHED]: 'finished',
+};
+
+export enum JobStatusId {
+  UNKNOWN = 1,
+  QUEUED,
+  IN_PROGRESS,
+  FINISHED,
+}
+
+export const JobStatusName = {
+  [OperationStatusId.UNKNOWN]: 'unknown',
+  [OperationStatusId.QUEUED]: 'queued',
+  [OperationStatusId.IN_PROGRESS]: 'in progress',
+  [OperationStatusId.FINISHED]: 'finished',
+};
 
 export interface Job {
   id: number;
   job_name: string;
   job_qty: number;
   job_status: {
-    job_status_name: OperationStatuses;
+    id: JobStatusId;
   };
   part: {
     part_img: string;
@@ -48,7 +69,7 @@ export interface Job {
 
 export type getJobsResponse = { jobs: Job[] };
 
-export interface Operation {
+export interface JobOperation {
   operation: {
     station: {
       station_type: string;
@@ -62,8 +83,8 @@ export interface Operation {
   job_operation_duration: number;
   job_operation_qty_out: number;
   operation_status: {
-    operation_status_name: OperationStatuses;
+    id: OperationStatusId;
   };
 }
 
-export type getJobOperationsResponse = { job_operation: Operation[] };
+export type getJobOperationsResponse = { job_operation: JobOperation[] };

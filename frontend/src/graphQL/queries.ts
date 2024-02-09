@@ -24,13 +24,13 @@ export const GET_JOBS_QUERY: TypedDocumentNode<
   getJobsResponse,
   { limit: number; offset: number }
 > = gql`
-  query GetJobs_Query($limit: Int!, $offset: Int!) {
+  query GetJobsQuery($limit: Int!, $offset: Int!) {
     jobs(order_by: { id: asc }, limit: $limit, offset: $offset) {
       id
       job_name
       job_qty
       job_status {
-        job_status_name
+        id
       }
       part {
         part_img
@@ -43,11 +43,11 @@ export const GET_JOBS_QUERY: TypedDocumentNode<
   }
 `;
 
-export const GET_JOB_OPERATIONS: TypedDocumentNode<
+export const GET_JOB_OPERATIONS_QUERY: TypedDocumentNode<
   getJobOperationsResponse,
   { id: number }
 > = gql`
-  query GetJobOperations($id: Int!) {
+  query GetJobOperationsQuery($id: Int!) {
     job_operation(
       where: { job_id: { _eq: $id } }
       order_by: { operation: { sequence: asc } }
@@ -65,20 +65,20 @@ export const GET_JOB_OPERATIONS: TypedDocumentNode<
       job_operation_duration
       job_operation_qty_out
       operation_status {
-        operation_status_name
+        id
       }
     }
   }
 `;
 
-export const GET_JOB_OPERATIONS_STATUSES = ({ jobId }: { jobId: number }) => `
+export const GET_JOB_OPERATIONS_STATUSES_QUERY = ({ jobId }: { jobId: number }) => `
   query {
     job_operation(
         where: {job_id: {_eq: ${jobId}}},
         order_by: {operation: {sequence: asc}}
       ) {
         operation_status {
-          operation_status_name
+          id
         }
       }
   }

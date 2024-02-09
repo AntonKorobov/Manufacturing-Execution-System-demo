@@ -2,8 +2,8 @@ export const revalidate = 0;
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { GET_JOB_OPERATIONS_STATUSES } from '@/graphQL/queries';
-import { Operation, OperationStatuses } from '@/graphQL/types';
+import { GET_JOB_OPERATIONS_STATUSES_QUERY } from '@/graphQL/queries';
+import { JobOperation, OperationStatusId } from '@/graphQL/types';
 import { PUT_JOB_STATUS } from '@/graphQL/mutations';
 
 export async function PUT(req: NextRequest) {
@@ -48,7 +48,7 @@ async function getJobStations(jobId: number) {
       'x-hasura-admin-secret': process.env.HASURA_ADMIN_SECRET as string,
     },
     body: JSON.stringify({
-      query: GET_JOB_OPERATIONS_STATUSES({ jobId: jobId }),
+      query: GET_JOB_OPERATIONS_STATUSES_QUERY({ jobId: jobId }),
     }),
   }).then((data) => data.json());
 
@@ -76,17 +76,17 @@ async function postJobStatus({
   return response;
 }
 
-function calculateStatusCode(operations: Operation[]) {
-  const stats: { [key in OperationStatuses]?: number } = {};
+function calculateStatusCode(operations: JobOperation[]) {
+  const stats: { [key in OperationStatusId]?: number } = {};
 
   const statuses = operations.reduce((prev, curr) => {
-    prev[curr.operation_status.operation_status_name] = 1;
+    prev[curr.operation_status.id] = 1;
     return prev;
   }, stats);
 
-  if (OperationStatuses.IN_PROGRESS in statuses) return 3;
-  if (OperationStatuses.QUEUED in statuses) return 2;
-  if (OperationStatuses.FINISHED in statuses) return 4;
+  if (OperationStatusId.IN_PROGRESS in statuses) return OperationStatusId.IN_PROGRESS;
+  if (OperationStatusId.QUEUED in statuses) return OperationStatusId.QUEUED;
+  if (OperationStatusId.FINISHED in statuses) return OperationStatusId.FINISHED;
 
-  return 1;
+  return OperationStatusId.UNKNOWN;
 }

@@ -13,7 +13,7 @@ import { useTimer } from '@/hooks/useTimer';
 import { convertSecondsToTime } from '@/utils/convertSecondsToTime';
 
 import { ActionButtonTypes } from '@/components/types';
-import { Operation, OperationStatuses } from '@/graphQL/types';
+import { JobOperation, OperationStatusId, OperationStatusName } from '@/graphQL/types';
 
 import * as TABLE from '../constants';
 import {
@@ -21,12 +21,12 @@ import {
   PUT_JOB_OPERATION_STATUS,
   PUT_STATION_STATUS,
 } from '@/graphQL/mutations';
-import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
+import { GET_JOB_OPERATIONS_QUERY } from '@/graphQL/queries';
 
 import * as S from './JobOperationsTableRow.styled';
 
 interface JobOperationsTableRowProps {
-  operation: Operation;
+  operation: JobOperation;
   isJobValidating: boolean;
   jobQty: number;
 }
@@ -53,7 +53,7 @@ export function JobOperationsTableRow({
       variables: {
         id: operation.operation.id,
       },
-      refetchQueries: [GET_JOB_OPERATIONS],
+      refetchQueries: [GET_JOB_OPERATIONS_QUERY],
     }
   );
 
@@ -63,7 +63,7 @@ export function JobOperationsTableRow({
       variables: {
         id: operation.operation.id,
       },
-      refetchQueries: [GET_JOB_OPERATIONS],
+      refetchQueries: [GET_JOB_OPERATIONS_QUERY],
     }
   );
 
@@ -101,9 +101,9 @@ export function JobOperationsTableRow({
   const handleClickStartButton = () => {
     startTimer();
 
-    mutateStationStatus({ variables: { statusCode: 2 } });
+    mutateStationStatus({ variables: { statusCode: OperationStatusId.QUEUED } });
     mutateJobOperationStatus({
-      variables: { statusCode: 3, duration: timerSeconds },
+      variables: { statusCode: OperationStatusId.IN_PROGRESS, duration: timerSeconds },
     });
   };
 
@@ -113,10 +113,10 @@ export function JobOperationsTableRow({
     mutateStationStatus({ variables: { statusCode: 5 } });
     currentQty >= jobQty
       ? mutateJobOperationStatus({
-          variables: { statusCode: 4, duration: timerSeconds },
+          variables: { statusCode: OperationStatusId.FINISHED, duration: timerSeconds },
         })
       : mutateJobOperationStatus({
-          variables: { statusCode: 2, duration: timerSeconds },
+          variables: { statusCode: OperationStatusId.QUEUED, duration: timerSeconds },
         });
   };
 
@@ -158,9 +158,9 @@ export function JobOperationsTableRow({
         )}
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-        <StatusIcon type={operation.operation_status.operation_status_name}>
+        <StatusIcon type={operation.operation_status.id}>
           {!isUpdating ? (
-            operation.operation_status.operation_status_name
+            OperationStatusName[operation.operation_status.id]
           ) : (
             <Loading size={20} />
           )}
@@ -168,14 +168,12 @@ export function JobOperationsTableRow({
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
         <S.ButtonsWrapper>
-          {operation.operation_status.operation_status_name ===
-            OperationStatuses.QUEUED && (
+          {operation.operation_status.id === OperationStatusId.QUEUED && (
             <ActionButton type={ActionButtonTypes.START} onClick={handleClickStartButton}>
               Start
             </ActionButton>
           )}
-          {operation.operation_status.operation_status_name ===
-            OperationStatuses.IN_PROGRESS && (
+          {operation.operation_status.id === OperationStatusId.IN_PROGRESS && (
             <>
               <ActionButton type={ActionButtonTypes.STOP} onClick={handleClickStopButton}>
                 Stop

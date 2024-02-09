@@ -7,9 +7,9 @@ import { ExpandButton } from '@/components/ExpandButton/ExpandButton';
 import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
 import { JobOperationsTableRow } from '../JobOperationsTableRow/JobOperationsTableRow';
 
-import { GET_JOB_OPERATIONS } from '@/graphQL/queries';
+import { GET_JOB_OPERATIONS_QUERY } from '@/graphQL/queries';
 
-import { Job, OperationStatuses } from '@/graphQL/types';
+import { Job, OperationStatusId, JobStatusName } from '@/graphQL/types';
 
 import * as TABLE from '../constants';
 
@@ -22,7 +22,7 @@ interface JobsTableRowProps {
 export function JobsTableRow({ job }: JobsTableRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { data: operations, networkStatus } = useQuery(GET_JOB_OPERATIONS, {
+  const { data: operations, networkStatus } = useQuery(GET_JOB_OPERATIONS_QUERY, {
     variables: {
       id: job.id,
     },
@@ -35,9 +35,7 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
     let hasInProgressStatus = false;
 
     operations?.job_operation.forEach((operation) => {
-      if (
-        operation.operation_status.operation_status_name === OperationStatuses.IN_PROGRESS
-      ) {
+      if (operation.operation_status.id === OperationStatusId.IN_PROGRESS) {
         hasInProgressStatus = true;
       }
     });
@@ -64,8 +62,8 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
           {job.job_qty}
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-          <StatusIcon type={job.job_status.job_status_name}>
-            {job.job_status.job_status_name}
+          <StatusIcon type={job.job_status.id}>
+            {JobStatusName[job.job_status.id]}
           </StatusIcon>
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_7} align="center">

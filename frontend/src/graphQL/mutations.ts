@@ -30,10 +30,10 @@ export const PUT_JOB_OPERATION_STATUS = gql`
   mutation PutJobOperationStatus($id: Int!, $statusCode: Int!, $duration: Int!) {
     update_job_operation(
       where: { operation_id: { _eq: $id } }
-      _set: { job_operation_status_id: $statusCode, job_operation_duration: $duration }
+      _set: { status: $statusCode, job_operation_duration: $duration }
     ) {
       returning {
-        job_operation_status_id
+        status
         operation_id
       }
     }
@@ -58,9 +58,9 @@ export const POST_OPERATION_LOG = ({
   operationId: number;
 }) => `
   mutation {
-    insert_logs(objects: {job_id: ${jobId}, log_start_time: ${logStartTime}, log_end_time: ${logEndTime}, log_qty_in: ${logQtyIn}, log_qty_out: ${logQtyOut}, log_status: ${logStatus}, operation_id: ${operationId}}) {
+    insert_logs(objects: {job_id: ${jobId}, log_start_time: ${logStartTime}, log_end_time: ${logEndTime}, log_qty_in: ${logQtyIn}, log_qty_out: ${logQtyOut}, status: ${logStatus}, operation_id: ${operationId}}) {
       returning {
-        log_status
+        status
         log_end_time
         log_start_time
       }
@@ -76,10 +76,10 @@ export const PUT_JOB_STATUS = ({
   statusCode: number;
 }) => `
   mutation {
-    update_jobs(where: {id: {_eq: ${id}}}, _set: {job_status_id: ${statusCode}}) {
+    update_jobs(where: {id: {_eq: ${id}}}, _set: {status: ${statusCode}}) {
       returning {
         job_status {
-          job_status_name
+          id
         }
       }
     }

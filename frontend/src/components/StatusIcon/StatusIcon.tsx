@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 import { ReactNode } from 'react';
 
-import { StationStatuses, OperationStatuses } from '@/graphQL/types';
+import { StationStatusName, OperationStatusId, JobStatusId } from '@/graphQL/types';
 
 interface StatusIconProps {
   children: ReactNode;
-  type: StationStatuses | OperationStatuses;
+  type: StationStatusName | OperationStatusId | JobStatusId;
 }
 
 export const StatusIcon = styled.div<StatusIconProps>`
@@ -23,34 +23,46 @@ export const StatusIcon = styled.div<StatusIconProps>`
   color: ${(props) => props.theme.color.mainWhite};
   background-color: ${(props) => {
     switch (props.type) {
-      case StationStatuses.UNKNOWN: {
+      case StationStatusName.UNKNOWN: {
         return props.theme.color.grayDark;
       }
-      case StationStatuses.WORKING: {
+      case StationStatusName.WORKING: {
         return props.theme.color.brightBlue;
       }
-      case StationStatuses.PREPARING: {
+      case StationStatusName.PREPARING: {
         return props.theme.color.greenLight;
       }
-      case StationStatuses.READY_TO_OPERATE: {
+      case StationStatusName.READY_TO_OPERATE: {
         return props.theme.color.greenLight;
       }
-      case StationStatuses.PENDING: {
+      case StationStatusName.PENDING: {
         return props.theme.color.grayDark;
       }
-      case StationStatuses.REPAIRING: {
+      case StationStatusName.REPAIRING: {
         return props.theme.color.greenLight;
       }
-      case OperationStatuses.UNKNOWN: {
+      case OperationStatusId.UNKNOWN: {
         return props.theme.color.grayDark;
       }
-      case OperationStatuses.QUEUED: {
+      case OperationStatusId.QUEUED: {
         return props.theme.color.grayDark;
       }
-      case OperationStatuses.IN_PROGRESS: {
+      case OperationStatusId.IN_PROGRESS: {
         return props.theme.color.brightBlue;
       }
-      case OperationStatuses.FINISHED: {
+      case OperationStatusId.FINISHED: {
+        return props.theme.color.greenLight;
+      }
+      case JobStatusId.UNKNOWN: {
+        return props.theme.color.grayDark;
+      }
+      case JobStatusId.QUEUED: {
+        return props.theme.color.grayDark;
+      }
+      case JobStatusId.IN_PROGRESS: {
+        return props.theme.color.brightBlue;
+      }
+      case JobStatusId.FINISHED: {
         return props.theme.color.greenLight;
       }
       default: {
