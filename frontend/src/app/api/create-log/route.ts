@@ -4,16 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { POST_OPERATION_LOG } from '@/graphQL/mutations';
 
+import { createLogEventResponse } from './types';
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const {
-    job_id,
-    job_operation_qty_in,
-    job_operation_qty_out,
-    operation_id,
-    updated_at,
-  } = body.event.data.new;
+  const { job_id, qty_in, qty_out, operation_id, updated_at } = body.event.data
+    .new as createLogEventResponse;
 
   let newStatusId = body.event.data.new.job_operation_status_id;
   const bodyRequest = { query: '' };
@@ -23,22 +20,22 @@ export async function POST(req: NextRequest) {
       jobId: job_id,
       logStartTime: `"${updated_at}"`,
       logEndTime: null,
-      logQtyIn: job_operation_qty_in,
-      logQtyOut: job_operation_qty_out,
+      logQtyIn: qty_in,
+      logQtyOut: qty_out,
       logStatus: newStatusId,
       operationId: operation_id,
     });
   }
   if (newStatusId === 2) {
-    if (job_operation_qty_out >= job_operation_qty_in) {
+    if (qty_out >= qty_in) {
       newStatusId = 4;
     }
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
       logStartTime: null,
       logEndTime: `"${updated_at}"`,
-      logQtyIn: job_operation_qty_in,
-      logQtyOut: job_operation_qty_out,
+      logQtyIn: qty_in,
+      logQtyOut: qty_out,
       logStatus: newStatusId,
       operationId: operation_id,
     });
