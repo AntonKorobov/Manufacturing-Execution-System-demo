@@ -14,7 +14,7 @@ export const GET_STATIONS_QUERY: TypedDocumentNode<
       station_type
       station_code
       station_status {
-        station_status_name
+        id
       }
     }
   }

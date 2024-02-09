@@ -2,12 +2,9 @@ import { gql } from '@apollo/client';
 
 export const PUT_STATION_STATUS = gql`
   mutation PutStationStatus($id: Int!, $statusCode: Int!) {
-    update_stations_by_pk(
-      pk_columns: { id: $id }
-      _set: { station_status_id: $statusCode }
-    ) {
+    update_stations_by_pk(pk_columns: { id: $id }, _set: { status: $statusCode }) {
       id
-      station_status_id
+      status
     }
   }
 `;

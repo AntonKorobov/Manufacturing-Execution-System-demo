@@ -1,12 +1,22 @@
-export enum StationStatusName {
-  UNKNOWN = 'unknown',
-  WORKING = 'working',
-  PREPARING = 'preparing',
-  READY_TO_OPERATE = 'ready to operate',
-  PENDING = 'pending',
-  REPAIRING = 'repairing',
-  IN_PROGRESS = 'in progress',
+export enum StationStatusId {
+  UNKNOWN = 1,
+  WORKING,
+  PREPARING,
+  READY_TO_OPERATE,
+  PENDING,
+  REPAIRING,
+  IN_PROGRESS,
 }
+
+export const StationStatusName = {
+  [StationStatusId.UNKNOWN]: 'unknown',
+  [StationStatusId.WORKING]: 'working',
+  [StationStatusId.PREPARING]: 'preparing',
+  [StationStatusId.READY_TO_OPERATE]: 'ready to operate',
+  [StationStatusId.PENDING]: 'pending',
+  [StationStatusId.REPAIRING]: 'repairing',
+  [StationStatusId.IN_PROGRESS]: 'in progress',
+};
 
 export interface Station {
   id: number;
@@ -15,7 +25,7 @@ export interface Station {
   station_name: string;
   station_type: string;
   station_status: {
-    station_status_name: StationStatusName;
+    id: StationStatusId;
   };
 }
 

@@ -18,7 +18,7 @@ export function StationsContainer({ stations }: StationsContainerProps) {
             stationImgUrl={station.station_img}
             stationName={station.station_name}
             stationCode={station.station_code}
-            stationStatus={station.station_status.station_status_name}
+            stationStatusId={station.station_status.id}
             stationType={station.station_type}
             url={`/stations/${station.id}/jobs`}
           />

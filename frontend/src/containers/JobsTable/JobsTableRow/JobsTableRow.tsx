@@ -4,7 +4,7 @@ import { NetworkStatus, useQuery } from '@apollo/client';
 
 import { Loading } from '@/components/Loading/Loading';
 import { ExpandButton } from '@/components/ExpandButton/ExpandButton';
-import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
+import { JobStatusIcon } from '@/components/StatusIcon/StatusIcon';
 import { JobOperationsTableRow } from '../JobOperationsTableRow/JobOperationsTableRow';
 
 import { GET_JOB_OPERATIONS_QUERY } from '@/graphQL/queries';
@@ -62,9 +62,9 @@ export function JobsTableRow({ job }: JobsTableRowProps) {
           {job.job_qty}
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-          <StatusIcon type={job.job_status.id}>
+          <JobStatusIcon type={job.job_status.id}>
             {JobStatusName[job.job_status.id]}
-          </StatusIcon>
+          </JobStatusIcon>
         </S.TableCell>
         <S.TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
           <ExpandButton expand={isExpanded} onClick={handleExpand} />

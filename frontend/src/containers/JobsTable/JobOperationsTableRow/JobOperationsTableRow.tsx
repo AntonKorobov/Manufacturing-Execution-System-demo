@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton/ActionButton';
 import { CounterInput } from '@/components/CounterInput/CounterInput';
 import { Loading } from '@/components/Loading/Loading';
-import { StatusIcon } from '@/components/StatusIcon/StatusIcon';
+import { OperationStatusIcon } from '@/components/StatusIcon/StatusIcon';
 
 import { useIsUpdating } from '@/hooks/useIsUpdating';
 import { useTimer } from '@/hooks/useTimer';
@@ -13,7 +13,12 @@ import { useTimer } from '@/hooks/useTimer';
 import { convertSecondsToTime } from '@/utils/convertSecondsToTime';
 
 import { ActionButtonTypes } from '@/components/types';
-import { JobOperation, OperationStatusId, OperationStatusName } from '@/graphQL/types';
+import {
+  JobOperation,
+  OperationStatusId,
+  OperationStatusName,
+  StationStatusId,
+} from '@/graphQL/types';
 
 import * as TABLE from '../constants';
 import {
@@ -101,7 +106,7 @@ export function JobOperationsTableRow({
   const handleClickStartButton = () => {
     startTimer();
 
-    mutateStationStatus({ variables: { statusCode: OperationStatusId.QUEUED } });
+    mutateStationStatus({ variables: { statusCode: StationStatusId.WORKING } });
     mutateJobOperationStatus({
       variables: { statusCode: OperationStatusId.IN_PROGRESS, duration: timerSeconds },
     });
@@ -110,7 +115,7 @@ export function JobOperationsTableRow({
   const handleClickStopButton = () => {
     pauseTimer();
 
-    mutateStationStatus({ variables: { statusCode: 5 } });
+    mutateStationStatus({ variables: { statusCode: StationStatusId.PENDING } });
     currentQty >= jobQty
       ? mutateJobOperationStatus({
           variables: { statusCode: OperationStatusId.FINISHED, duration: timerSeconds },
@@ -158,13 +163,13 @@ export function JobOperationsTableRow({
         )}
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_6} align="center">
-        <StatusIcon type={operation.operation_status.id}>
+        <OperationStatusIcon type={operation.operation_status.id}>
           {!isUpdating ? (
             OperationStatusName[operation.operation_status.id]
           ) : (
             <Loading size={20} />
           )}
-        </StatusIcon>
+        </OperationStatusIcon>
       </S.TableCell>
       <S.TableCell width={TABLE.COLUMN_WIDTH_7} align="center">
         <S.ButtonsWrapper>

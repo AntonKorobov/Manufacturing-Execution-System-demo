@@ -1,4 +1,4 @@
-import { StationStatusName } from '@/graphQL/types';
+import { StationStatusId, StationStatusName } from '@/graphQL/types';
 
 import * as S from './StationCard.styled';
 
@@ -7,7 +7,7 @@ interface StationCardProps {
   stationName: string;
   stationType: string;
   stationCode: string;
-  stationStatus: StationStatusName;
+  stationStatusId: StationStatusId;
   url: string;
 }
 
@@ -16,7 +16,7 @@ export function StationCard({
   stationName,
   stationType,
   stationCode,
-  stationStatus,
+  stationStatusId,
   url,
 }: StationCardProps) {
   return (
@@ -42,7 +42,9 @@ export function StationCard({
         <S.Item>
           <S.StatusWrapper>
             Status:
-            <S.StatusIcon type={stationStatus}>{stationStatus}</S.StatusIcon>
+            <S.StationStatusIcon type={stationStatusId}>
+              {StationStatusName[stationStatusId]}
+            </S.StationStatusIcon>
           </S.StatusWrapper>
         </S.Item>
       </S.List>

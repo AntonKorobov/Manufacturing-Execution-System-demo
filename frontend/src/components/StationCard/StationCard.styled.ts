@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { StatusIcon as StatusIconComponents } from '@/components/StatusIcon/StatusIcon';
+import { StationStatusIcon as StatusIconComponents } from '@/components/StatusIcon/StatusIcon';
 
 export const Wrapper = styled(Link)`
   width: 24%;
@@ -38,7 +38,7 @@ export const ImageNext = styled(Image)`
   overflow: hidden;
 `;
 
-export const StatusIcon = styled(StatusIconComponents)`
+export const StationStatusIcon = styled(StatusIconComponents)`
   height: 20px;
   width: fit-content;
   font-size: ${(props) => props.theme.fontSize.md};
