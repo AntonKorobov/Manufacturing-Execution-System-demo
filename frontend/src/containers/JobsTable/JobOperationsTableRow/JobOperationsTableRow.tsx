@@ -36,6 +36,8 @@ export function JobOperationsTableRow({
   isJobValidating,
   jobQty,
 }: JobOperationsTableRowProps) {
+  const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
+
   const [mutateStationStatus, { loading: loadingStationStatus }] = useMutation(
     PUT_STATION_STATUS,
     {
@@ -66,12 +68,6 @@ export function JobOperationsTableRow({
   );
 
   const {
-    hrs: expected_hrs,
-    min: expected_min,
-    sec: expected_sec,
-  } = convertSecondsToTime(operation.operation.operation_expected_time);
-
-  const {
     seconds: timerSeconds,
     start: startTimer,
     pause: pauseTimer,
@@ -82,12 +78,16 @@ export function JobOperationsTableRow({
   });
 
   const {
+    hrs: expected_hrs,
+    min: expected_min,
+    sec: expected_sec,
+  } = convertSecondsToTime(operation.operation.operation_expected_time);
+
+  const {
     hrs: processed_hrs,
     min: processed_min,
     sec: processed_sec,
   } = convertSecondsToTime(timerSeconds);
-
-  const [currentQty, setCurrentQty] = useState(operation.job_operation_qty_out);
 
   const mutationStatuses = useMemo(
     () => [loadingStationStatus, loadingJobOperationQty, loadingJobOperationStatus],
@@ -97,6 +97,28 @@ export function JobOperationsTableRow({
     isMutating: mutationStatuses,
     isValidating: isJobValidating,
   });
+
+  const handleClickStartButton = () => {
+    startTimer();
+
+    mutateStationStatus({ variables: { statusCode: 2 } });
+    mutateJobOperationStatus({
+      variables: { statusCode: 3, duration: timerSeconds },
+    });
+  };
+
+  const handleClickStopButton = () => {
+    pauseTimer();
+
+    mutateStationStatus({ variables: { statusCode: 5 } });
+    currentQty >= jobQty
+      ? mutateJobOperationStatus({
+          variables: { statusCode: 4, duration: timerSeconds },
+        })
+      : mutateJobOperationStatus({
+          variables: { statusCode: 2, duration: timerSeconds },
+        });
+  };
 
   const handleChangeCounterInput = (value: number) => {
     resetTimer();
@@ -148,36 +170,14 @@ export function JobOperationsTableRow({
         <S.ButtonsWrapper>
           {operation.operation_status.operation_status_name ===
             OperationStatuses.QUEUED && (
-            <ActionButton
-              type={ActionButtonTypes.START}
-              onClick={() => {
-                startTimer();
-                mutateStationStatus({ variables: { statusCode: 2 } });
-                mutateJobOperationStatus({
-                  variables: { statusCode: 3, duration: timerSeconds },
-                });
-              }}
-            >
+            <ActionButton type={ActionButtonTypes.START} onClick={handleClickStartButton}>
               Start
             </ActionButton>
           )}
           {operation.operation_status.operation_status_name ===
             OperationStatuses.IN_PROGRESS && (
             <>
-              <ActionButton
-                type={ActionButtonTypes.STOP}
-                onClick={() => {
-                  pauseTimer();
-                  mutateStationStatus({ variables: { statusCode: 5 } });
-                  currentQty >= jobQty
-                    ? mutateJobOperationStatus({
-                        variables: { statusCode: 4, duration: timerSeconds },
-                      })
-                    : mutateJobOperationStatus({
-                        variables: { statusCode: 2, duration: timerSeconds },
-                      });
-                }}
-              >
+              <ActionButton type={ActionButtonTypes.STOP} onClick={handleClickStopButton}>
                 Stop
               </ActionButton>
               <CounterInput value={currentQty} onChange={handleChangeCounterInput} />
