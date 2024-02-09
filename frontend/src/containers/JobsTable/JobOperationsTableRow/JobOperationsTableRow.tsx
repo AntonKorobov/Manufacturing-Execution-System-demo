@@ -126,8 +126,6 @@ export function JobOperationsTableRow({
   };
 
   const handleChangeCounterInput = (value: number) => {
-    resetTimer();
-
     if (value >= 0 && value <= jobQty) {
       setCurrentQty(value);
       mutateJobOperationQty({
