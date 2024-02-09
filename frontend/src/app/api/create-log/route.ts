@@ -9,13 +9,13 @@ import { createLogEventResponse } from './types';
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const { job_id, qty_in, qty_out, operation_id, updated_at } = body.event.data
+  const { job_id, qty_in, qty_out, operation_id, updated_at, status } = body.event.data
     .new as createLogEventResponse;
 
-  let newStatusId = body.event.data.new.job_operation_status_id;
+  let newStatusId = status;
   const bodyRequest = { query: '' };
 
-  if (newStatusId === 3) {
+  if (status === 3) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
       logStartTime: `"${updated_at}"`,
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       operationId: operation_id,
     });
   }
-  if (newStatusId === 2) {
+  if (status === 2) {
     if (qty_out >= qty_in) {
       newStatusId = 4;
     }
