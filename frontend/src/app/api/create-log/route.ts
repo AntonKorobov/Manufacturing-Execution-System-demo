@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { POST_OPERATION_LOG } from '@/graphQL/mutations';
 
 import { createLogEventResponse } from './types';
+import { OperationStatusId } from '@/graphQL/types';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
   let newStatusId = status;
   const bodyRequest = { query: '' };
 
-  if (status === 3) {
+  if (status === OperationStatusId.IN_PROGRESS) {
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
       logStartTime: `"${updated_at}"`,
@@ -26,9 +27,9 @@ export async function POST(req: NextRequest) {
       operationId: operation_id,
     });
   }
-  if (status === 2) {
+  if (status === OperationStatusId.QUEUED) {
     if (qty_out >= qty_in) {
-      newStatusId = 4;
+      newStatusId = OperationStatusId.FINISHED;
     }
     bodyRequest.query = POST_OPERATION_LOG({
       jobId: job_id,
